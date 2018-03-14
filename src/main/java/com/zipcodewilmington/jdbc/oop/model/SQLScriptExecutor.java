@@ -10,17 +10,29 @@ import java.util.Scanner;
 
 /**
  * Created by leon on 3/14/18.
- * This class is responsible for importing SQL files from local directories
+ * This class is responsible for executing SQL files from local directories
  */
-public class SQLFileImporter {
+public class SQLScriptExecutor {
     private final Connection connection;
-    private final List<InputStream> filesToBeImported = new ArrayList<InputStream>();
+    private final List<InputStream> filesToBeExecuted = new ArrayList<InputStream>();
 
     /**
      * @param conn
      */
-    public SQLFileImporter(Connection conn) {
+    public SQLScriptExecutor(Connection conn) {
         this.connection = conn;
+    }
+
+    /**
+     * appends each file in the directory to the files to be imported
+     * @param directory
+     */
+    public void appendDirectory(File directory) {
+        assert(directory.isDirectory());
+        File[] files = directory.listFiles();
+        for(File file : files) {
+            appendScript(file);
+        }
     }
 
     /**
@@ -28,41 +40,37 @@ public class SQLFileImporter {
      * @param directoryPath
      */
     public void appendDirectory(String directoryPath) {
-        File directory = new File(directoryPath);
-        File[] files = directory.listFiles();
-        for(File file : files) {
-            appendFile(file);
-        }
+        appendDirectory(new File(directoryPath));
     }
 
     /**
      * @param filePath string representative of a file path
      * @return this; implementation of builder-pattern
      */
-    public SQLFileImporter appendFile(String filePath)  {
-        return appendFile(new File(filePath));
+    public SQLScriptExecutor appendScript(String filePath)  {
+        return appendScript(new File(filePath));
     }
 
     /**
      * @param file a file to be imported
      * @return this; implementation of builder-pattern
      */
-    public SQLFileImporter appendFile(File file)  {
+    public SQLScriptExecutor appendScript(File file)  {
         FileInputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file.getAbsoluteFile());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return appendFile(inputStream);
+        return appendScript(inputStream);
     }
 
     /**
      * @param in input stream representative of a file path
      * @return this; implementation of builder-pattern
      */
-    public SQLFileImporter appendFile(InputStream in)  {
-        filesToBeImported.add(in);
+    public SQLScriptExecutor appendScript(InputStream in)  {
+        filesToBeExecuted.add(in);
         return this;
     }
 
@@ -70,8 +78,8 @@ public class SQLFileImporter {
      * Imports each of the SQL files that have been appended to this object
      * @throws SQLException
      */
-    public void importFiles() throws SQLException {
-        for(InputStream in : filesToBeImported) {
+    public void executeScripts() throws SQLException {
+        for(InputStream in : filesToBeExecuted) {
             Scanner s = new Scanner(in);
             s.useDelimiter("(;(\r)?\n)|(--\n)");
             Statement st = null;
@@ -85,7 +93,6 @@ public class SQLFileImporter {
                     }
 
                     if (line.trim().length() > 0) {
-                        System.out.println(line);
                         st.execute(line);
                     }
                 }

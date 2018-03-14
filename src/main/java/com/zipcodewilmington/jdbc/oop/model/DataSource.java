@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class DataSource implements Closeable {
     private List<ResultSetHandler> resultSetHandlers = new ArrayList<ResultSetHandler>();
-    private final MySQLDataSource dataSource;
+    private MySQLDataSource dataSource;
     private Connection connection;
 
     /**
@@ -49,8 +49,8 @@ public class DataSource implements Closeable {
     }
 
     /**
+     * executes update statement on the respective connection object
      * @param updateStatement string representative of a SQL update statement
-     *                        executes update statement on the respective connection object
      */
     public void executeUpdate(String updateStatement) {
         try {
@@ -63,8 +63,8 @@ public class DataSource implements Closeable {
 
 
     /**
+     * executes query statement on the respective connection object
      * @param queryStatement string representative of a SQL query statement
-     *                       executes query statement on the respective connection object
      */
     public ResultSetHandler executeQuery(String queryStatement) {
         ResultSetHandler resultSetHandler = this.query(queryStatement);
@@ -73,23 +73,8 @@ public class DataSource implements Closeable {
     }
 
     /**
-     * closes connection object and all resultSetHandlers
-     */
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        for (ResultSetHandler resultSetHandler : resultSetHandlers) {
-            resultSetHandler.close();
-        }
-    }
-
-    /**
+     * executes query statement on the respective connection object
      * @param queryStatement string representative of a SQL query statement
-     *                       executes query statement on the respective connection object
      * @return wrapper of ResultSet
      */
     private ResultSetHandler query(String queryStatement) {
@@ -101,6 +86,23 @@ public class DataSource implements Closeable {
             e.printStackTrace();
         }
         return new ResultSetHandler(resultSet);
+    }
+
+
+    /**
+     * closes connection object and all resultSetHandlers
+     */
+    @Override
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (ResultSetHandler resultSetHandler : resultSetHandlers) {
+            resultSetHandler.close();
+        }
     }
 
     @Override // Invoked upon garbage collection
