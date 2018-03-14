@@ -1,6 +1,8 @@
 package com.zipcodewilmington.jdbc.oop.model;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,6 +16,22 @@ public class SQLScriptExecutor {
 
     private final InputStream[] scriptsToBeExecuted;
     private final Connection connection;
+
+
+    public SQLScriptExecutor(File[] scripts, Connection connection) {
+        this.connection = connection;
+        scriptsToBeExecuted = new InputStream[scripts.length];
+        for (int i = 0; i < scripts.length; i++) {
+            File script = scripts[i];
+            try {
+                String scriptName = script.getName();
+                scriptsToBeExecuted[i] = new FileInputStream(scriptName);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public SQLScriptExecutor(InputStream[] scripts, Connection connection) {
         this.scriptsToBeExecuted = scripts;
