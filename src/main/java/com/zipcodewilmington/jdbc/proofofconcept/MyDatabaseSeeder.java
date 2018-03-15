@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.Migrations;
+package com.zipcodewilmington.jdbc.proofofconcept;
 
 import com.sun.istack.internal.NotNull;
 import com.zipcodewilmington.jdbc.oop.utils.DataSource;
