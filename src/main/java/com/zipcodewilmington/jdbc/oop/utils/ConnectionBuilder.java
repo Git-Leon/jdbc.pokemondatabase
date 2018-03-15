@@ -1,5 +1,6 @@
 package com.zipcodewilmington.jdbc.oop.utils;
 
+import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
 import org.mariadb.jdbc.MySQLDataSource;
 
 import java.sql.Connection;
@@ -11,6 +12,7 @@ public class ConnectionBuilder {
     public ConnectionBuilder() {
         this(new MySQLDataSource());
     }
+
     public ConnectionBuilder(MySQLDataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -40,13 +42,17 @@ public class ConnectionBuilder {
         return this;
     }
 
+    public ConnectionBuilder setUrl(String url) {
+        dataSource.setUrl(url);
+        return this;
+    }
+
     public Connection build() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorMessage = "Failed to build a connection from the configured data source.";
+            throw new SQLeonException(e, errorMessage);
         }
-        String errorMessage = "Failed to build a connection from the configured data source.";
-        throw new NullPointerException(errorMessage);
     }
 }

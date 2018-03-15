@@ -1,5 +1,7 @@
 package com.zipcodewilmington.jdbc.oop.utils;
 
+import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
+
 import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -91,10 +93,9 @@ public class StatementExecutor implements Closeable {
             Statement statement = connection.createStatement();
             statement.execute(sql);
         } catch (SQLException e) {
-            String errorString = "Failed to execute statement `%s`.\n" + e.getLocalizedMessage();
+            String errorString = "Failed to execute statement `%s`";
             String errorMessage = String.format(errorString, sql);
-            SQLException error = new SQLException(errorMessage);
-            error.printStackTrace();
+            throw new SQLeonException(e, errorMessage);
         }
     }
 

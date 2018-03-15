@@ -6,13 +6,14 @@ import com.zipcodewilmington.jdbc.oop.utils.ResultSetHandler;
 import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
 import org.junit.Test;
 
+import java.sql.Connection;
 import java.util.Map;
 
 public class WilhemDatabaseSeederTest {
     @Test
     public void test() {
-        LeonDatabaseSeeder seeder = new LeonDatabaseSeeder();
-        WilhemDatabaseSeeder wilhemDatabaseSeeder = new WilhemDatabaseSeeder(seeder.getDataSource().getConnection());
+        Connection connection = Database.POKEMON.getConnection();
+        WilhemDatabaseSeeder wilhemDatabaseSeeder = new WilhemDatabaseSeeder(connection);
         wilhemDatabaseSeeder.run();
         StatementExecutor executor = wilhemDatabaseSeeder.getStatementExecutor();
         ResultSetHandler rsh = executor.executeQuery("SELECT * FROM pokemons");

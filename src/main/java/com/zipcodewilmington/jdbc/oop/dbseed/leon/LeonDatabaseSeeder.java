@@ -1,11 +1,9 @@
 package com.zipcodewilmington.jdbc.oop.dbseed.leon;
 
-import com.zipcodewilmington.jdbc.oop.utils.ConnectionBuilder;
-import com.zipcodewilmington.jdbc.oop.utils.DataSource;
+import com.zipcodewilmington.jdbc.oop.dbseed.Database;
 import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class LeonDatabaseSeeder {
     private final Connection connection;
@@ -15,12 +13,7 @@ public class LeonDatabaseSeeder {
     }
 
     public LeonDatabaseSeeder() {
-        this(new ConnectionBuilder()
-                .setDatabaseName("pokemon")
-                .setServerName("127.0.0.1")
-                .setUser("root")
-                .setPassword("")
-                .build());
+        this.connection = Database.POKEMON.getConnection();
     }
 
     public void dropTable() {
@@ -40,7 +33,4 @@ public class LeonDatabaseSeeder {
         return new StatementExecutor(connection);
     }
 
-    public DataSource getDataSource() {
-        return new DataSource(connection);
-    }
 }
