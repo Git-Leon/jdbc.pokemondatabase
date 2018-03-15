@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.oop.model;
+package com.zipcodewilmington.jdbc.oop.utils;
 
 import java.io.Closeable;
 import java.sql.ResultSet;
@@ -16,13 +16,23 @@ public class ResultSetHandler implements Closeable {
         this.resultSet = resultSet;
     }
 
-    public Stack<Map<String, String>> toStack() throws SQLException {
+    public Stack<Map<String, String>> toStack() {
         Stack<Map<String, String>> stack = new Stack();
         stack.addAll(toList());
         return stack;
     }
 
-    public List<Map<String, String>> toList() throws SQLException {
+    public List<Map<String, String>> toList() {
+        List<Map<String,String>> list = null;
+        try {
+            list = _toList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    private List<Map<String, String>> _toList() throws SQLException {
         ResultSetMetaData md = resultSet.getMetaData();
         int columns = md.getColumnCount();
         List<Map<String, String>> list = new ArrayList<>();
@@ -51,5 +61,16 @@ public class ResultSetHandler implements Closeable {
     @Override
     public void finalize() {
         close();
+    }
+
+    public String getColumnName(int i) {
+        String columnName = "";
+        try {
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+            columnName = rsmd.getColumnName(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return columnName;
     }
 }

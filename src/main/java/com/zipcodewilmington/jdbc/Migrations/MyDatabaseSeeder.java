@@ -1,7 +1,8 @@
 package com.zipcodewilmington.jdbc.Migrations;
 
 import com.sun.istack.internal.NotNull;
-import com.zipcodewilmington.jdbc.oop.model.*;
+import com.zipcodewilmington.jdbc.oop.utils.DataSource;
+import com.zipcodewilmington.jdbc.oop.utils.ResultSetHandler;
 
 import java.io.*;
 import java.sql.*;

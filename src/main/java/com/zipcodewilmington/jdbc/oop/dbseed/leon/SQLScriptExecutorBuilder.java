@@ -1,16 +1,13 @@
-package com.zipcodewilmington.jdbc.oop.model;
+package com.zipcodewilmington.jdbc.oop.dbseed.leon;
 
 import java.io.*;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by leon on 3/14/18.
- * This class is responsible for executing SQL files from local directories
+ * This class is responsible for appending SQL files for a subsequent SQLScriptExecutor to execute
  */
 public class SQLScriptExecutorBuilder {
     private final Connection connection;
