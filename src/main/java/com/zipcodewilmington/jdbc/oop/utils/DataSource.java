@@ -56,8 +56,4 @@ public class DataSource implements Closeable {
         }
     }
 
-    public StatementExecutor getStatementExecutor() {
-        return new StatementExecutor(connection);
-    }
-
 }

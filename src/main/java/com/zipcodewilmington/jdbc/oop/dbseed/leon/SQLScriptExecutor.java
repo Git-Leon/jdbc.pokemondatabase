@@ -1,5 +1,7 @@
 package com.zipcodewilmington.jdbc.oop.dbseed.leon;
 
+import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,27 +35,23 @@ public class SQLScriptExecutor {
      *
      * @throws SQLException
      */
-    public void executeScripts() throws SQLException {
+    public void executeScripts(){
+        StatementExecutor executor = new StatementExecutor(connection);
         for (InputStream in : scriptsToBeExecuted) {
             Scanner s = new Scanner(in);
             s.useDelimiter("(;(\r)?\n)|(--\n)");
-            Statement st = null;
-            try {
-                st = connection.createStatement();
-                while (s.hasNext()) {
-                    String line = s.next();
-                    if (line.startsWith("/*!") && line.endsWith("*/")) {
-                        int i = line.indexOf(' ');
-                        line = line.substring(i + 1, line.length() - " */".length());
-                    }
-
-                    if (line.trim().length() > 0) {
-                        st.execute(line);
-                    }
+            while (s.hasNext()) {
+                String line = s.next();
+                if (line.startsWith("/*!") && line.endsWith("*/")) {
+                    int indexOfSpace = line.indexOf(' ');
+                    line = line.substring(indexOfSpace + 1, line.length() - " */".length());
                 }
-            } finally {
-                if (st != null) st.close();
+
+                if (line.trim().length() > 0) {
+                    executor.execute(line);
+                }
             }
+
         }
     }
 

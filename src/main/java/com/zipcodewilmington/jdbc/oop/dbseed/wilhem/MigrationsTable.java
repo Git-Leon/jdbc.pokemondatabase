@@ -49,9 +49,7 @@ public class MigrationsTable {
         assert (directory.isDirectory());
         File[] files = directory.listFiles();
         for (File file : files) {
-            if (!contains(file)) {
-                insert(file);
-            }
+            insert(file);
         }
         statementExecutor.commit();
     }

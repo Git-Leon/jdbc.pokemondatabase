@@ -91,7 +91,10 @@ public class StatementExecutor implements Closeable {
             Statement statement = connection.createStatement();
             statement.execute(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorString = "Failed to execute statement `%s`.\n" + e.getLocalizedMessage();
+            String errorMessage = String.format(errorString, sql);
+            SQLException error = new SQLException(errorMessage);
+            error.printStackTrace();
         }
     }
 
