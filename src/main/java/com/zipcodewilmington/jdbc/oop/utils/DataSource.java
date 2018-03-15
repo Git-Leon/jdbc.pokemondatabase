@@ -1,14 +1,10 @@
-package com.zipcodewilmington.jdbc.oop.model;
+package com.zipcodewilmington.jdbc.oop.utils;
 
 import org.mariadb.jdbc.MySQLDataSource;
 
 import java.io.Closeable;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by leon on 3/13/18.
@@ -33,6 +29,10 @@ public class DataSource implements Closeable {
         this.dataSource = dataSource;
     }
 
+    public DataSource(Connection connection) {
+        this.connection = connection;
+    }
+
     /**
      * @return connection to the datasource
      */
@@ -54,7 +54,10 @@ public class DataSource implements Closeable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public StatementExecutor getStatementExecutor() {
+        return new StatementExecutor(connection);
     }
 
 }

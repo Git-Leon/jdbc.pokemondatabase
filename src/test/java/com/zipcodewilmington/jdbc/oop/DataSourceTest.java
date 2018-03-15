@@ -1,7 +1,7 @@
 package com.zipcodewilmington.jdbc.oop;
 
 import com.sun.tools.javac.util.Assert;
-import com.zipcodewilmington.jdbc.oop.model.DataSource;
+import com.zipcodewilmington.jdbc.oop.utils.DataSource;
 import org.junit.Test;
 
 import java.sql.Connection;

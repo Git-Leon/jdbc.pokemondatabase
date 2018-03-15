@@ -1,28 +1,29 @@
-package com.zipcodewilmington.jdbc.oop;
+package com.zipcodewilmington.jdbc.oop.dbseed.leon;
 
-import com.zipcodewilmington.jdbc.oop.model.DataSource;
-import com.zipcodewilmington.jdbc.oop.model.SQLScriptExecutor;
-import com.zipcodewilmington.jdbc.oop.model.SQLScriptExecutorBuilder;
-import com.zipcodewilmington.jdbc.oop.model.StatementExecutor;
+import com.zipcodewilmington.jdbc.oop.utils.DataSource;
+import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-public class MyDatabaseSeeder {
+public class LeonDatabaseSeeder {
     private final Connection connection;
 
-    public MyDatabaseSeeder() {
-        this.connection = new DataSource(
+    public LeonDatabaseSeeder(Connection connection) {
+        this.connection = connection;
+    }
+    public LeonDatabaseSeeder() {
+        this(new DataSource(
                 "pokemon", // database name
                 "127.0.0.1", // server name
                 "root", // user
                 "") // password
-                .getConnection();
+                .getConnection());
     }
 
     public void importFilesFromResourcesDirectory() {
+        SQLScriptExecutorBuilder builder = new SQLScriptExecutorBuilder(connection);
         String localDirectory = System.getProperty("user.dir");
         String resourcesDirectory = localDirectory + "/src/main/resources/migrations/";
-        SQLScriptExecutorBuilder builder = new SQLScriptExecutorBuilder(connection);
         builder.appendDirectory(resourcesDirectory);
         SQLScriptExecutor scriptExecutor = builder.build();
 
@@ -35,5 +36,9 @@ public class MyDatabaseSeeder {
 
     public StatementExecutor getStatementExecutor() {
         return new StatementExecutor(connection);
+    }
+
+    public DataSource getDataSource() {
+        return new DataSource(connection);
     }
 }

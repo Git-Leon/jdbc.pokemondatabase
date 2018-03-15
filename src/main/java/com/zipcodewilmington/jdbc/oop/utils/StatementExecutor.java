@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.oop.model;
+package com.zipcodewilmington.jdbc.oop.utils;
 
 import java.io.Closeable;
 import java.sql.Connection;
@@ -23,7 +23,7 @@ public class StatementExecutor implements Closeable {
      */
     public void executeUpdate(String updateStatement) {
         try {
-            Statement statement = getConnection().createStatement();
+            Statement statement = connection.createStatement();
             statement.executeUpdate(updateStatement);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class StatementExecutor implements Closeable {
     private ResultSetHandler query(String queryStatement) {
         ResultSet resultSet = null;
         try {
-            Statement statement = getConnection().createStatement();
+            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery(queryStatement);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,10 +81,31 @@ public class StatementExecutor implements Closeable {
         }
     }
 
+    public void executeAndCommit(String s) {
+        execute(s);
+        commit();
+    }
+
+    public void execute(String sql) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void commit() {
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override // Invoked upon garbage collection
     public void finalize() {
         close();
     }
-
-
 }
