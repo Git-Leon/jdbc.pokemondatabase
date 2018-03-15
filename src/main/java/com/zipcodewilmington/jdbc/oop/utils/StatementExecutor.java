@@ -25,8 +25,7 @@ public class StatementExecutor implements Closeable {
      */
     public void executeUpdate(String updateStatement) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(updateStatement);
+            getScrollableStatement().executeUpdate(updateStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,7 +52,7 @@ public class StatementExecutor implements Closeable {
     private ResultSetHandler query(String queryStatement) {
         ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = this.getScrollableStatement();
             resultSet = statement.executeQuery(queryStatement);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,10 +87,10 @@ public class StatementExecutor implements Closeable {
         commit();
     }
 
-    public void execute(String sql) {
+    public void execute(String sql, Object... args) {
         try {
-            Statement statement = connection.createStatement();
-            statement.execute(sql);
+            Statement statement = this.getScrollableStatement();
+            statement.execute(String.format(sql, args));
         } catch (SQLException e) {
             String errorString = "Failed to execute statement `%s`";
             String errorMessage = String.format(errorString, sql);
@@ -99,11 +98,21 @@ public class StatementExecutor implements Closeable {
         }
     }
 
+    public Statement getScrollableStatement() {
+        try {
+            return connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+        } catch (SQLException e) {
+            throw new SQLeonException(e, "Failed to create a Statement.");
+        }
+    }
+
     public void commit() {
         try {
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLeonException(e, "Failed to execute commit.");
         }
     }
 

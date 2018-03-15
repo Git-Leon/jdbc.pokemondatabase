@@ -2,9 +2,9 @@ package com.zipcodewilmington.jdbc.oop.utils;
 
 import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class ConnectionWrapper {
     private final Connection connection;
@@ -22,7 +22,8 @@ public class ConnectionWrapper {
         try {
             return connection.getMetaData();
         } catch (SQLException e) {
-            throw getNullPointer(e);
+            String errorMessage = "Failed to retrieve metadata from the connection.";
+            throw new SQLeonException(e, errorMessage);
         }
     }
 
@@ -30,12 +31,32 @@ public class ConnectionWrapper {
         try {
             return connection.getCatalog();
         } catch (SQLException e) {
-            throw getNullPointer(e);
+            String errorMessage = "Failed to retrieve catalog from the metadata.";
+            throw new SQLeonException(e, errorMessage);
         }
     }
 
-    private SQLeonException getNullPointer(SQLException e) {
-        String errorMessage = "Failed to get meta data from connectionWrapper with the configured data source.\n";
-        return new SQLeonException(e, errorMessage);
+    public ResultSetHandler getCatalogs() {
+        try {
+            ResultSet rs =  getMetaData().getCatalogs();
+            ResultSetHandler rsh = new ResultSetHandler(rs);
+            return rsh;
+        } catch (SQLException e) {
+            String errorMessage = "Failed to retrieve the catalogs from the metadata.";
+            throw new SQLeonException(e, errorMessage);
+        }
+    }
+
+    public String[] getSchemaNames() {
+        ResultSetHandler rsh = getCatalogs();
+        String schemaColumn = rsh.getColumnName(1);
+        String[] schemaNames = rsh.getRows(schemaColumn);
+        return schemaNames;
+    }
+
+
+    public Boolean hasDatabase(String name) {
+        List<String> schemaNames = Arrays.asList(getSchemaNames());
+        return schemaNames.contains(name);
     }
 }
