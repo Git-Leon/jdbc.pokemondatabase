@@ -13,6 +13,7 @@ public class WilhemDatabaseSeederTest {
     @Test
     public void test() {
         Connection connection = Database.POKEMON.getConnection();
+        Database.POKEMON.use();
         WilhemDatabaseSeeder wilhemDatabaseSeeder = new WilhemDatabaseSeeder(connection);
         wilhemDatabaseSeeder.run();
         StatementExecutor executor = wilhemDatabaseSeeder.getStatementExecutor();
