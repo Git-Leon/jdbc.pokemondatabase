@@ -4,6 +4,9 @@ import com.mysql.jdbc.Driver;
 import com.zipcodewilmington.jdbc.oop.utils.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.oop.utils.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -24,12 +27,14 @@ public enum Database {
         registerJDBCDriver();
     }
 
+    private final LoggerHandler logger;
     private final ConnectionWrapper connectionWrapper;
     private final StatementExecutor statementExecutor;
 
     Database(Connection connection) {
         this.connectionWrapper = new ConnectionWrapper(connection);
         this.statementExecutor = new StatementExecutor(connection);
+        this.logger = LoggerWarehouse.getLogger(name());
     }
 
     public Connection getConnection() {
@@ -48,12 +53,16 @@ public enum Database {
     public void drop() {
         if (!isNull()) {
             String sqlStatement = "DROP DATABASE %s ;";
-            statementExecutor.execute(sqlStatement, name());
+            try {
+                statementExecutor.execute(sqlStatement, name());
+            } catch(SQLeonException se) {
+                se.printStackTrace();
+            }
         }
     }
 
     public void create() {
-        if (isNull()) {
+        if (true || isNull()) {
             String sqlStatement = "CREATE DATABASE %s ;";
             statementExecutor.execute(sqlStatement, name());
         }

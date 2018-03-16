@@ -159,4 +159,8 @@ public class ResultSetHandler implements Closeable {
             throw new SQLeonException(e, "Failed to get current row of the Result Set.");
         }
     }
+
+    public ResultSet getResultSet() {
+        return resultSet;
+    }
 }

@@ -1,13 +1,12 @@
 package com.zipcodewilmington.jdbc.oop.utils;
 
 
+import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author leon.hunter
@@ -17,8 +16,8 @@ import java.util.Stack;
 public class ResultSetManager implements AutoCloseable {
     private final ResultSet rs;
     private final ResultSetMetaData md;
-    private List<HashMap<String, Object>> hashMapList;
-    private Stack<HashMap<String, Object>> hashMapStack;
+    private List<Map<String, Object>> hashMapList;
+    private Stack<Map<String, Object>> hashMapStack;
 
     public ResultSetManager(ResultSet rs) {
         this.rs = rs;
@@ -26,27 +25,32 @@ public class ResultSetManager implements AutoCloseable {
     }
 
     // Returns a { columnName : columnValues } structured hash map.
-    public HashMap<String, String[]> asColumnNameHashMap() throws SQLException {
-        HashMap<String, String[]> table = new HashMap<String, String[]>();
+    public Map<String, String[]> asColumnNameHashMap() {
+        Map<String, String[]> table = new HashMap<String, String[]>();
 
-        int columnCount = md.getColumnCount();
-        int rowCount = getRowCount();
-        for (String field : getColumnNames()) { // new String[] per column
-            table.put(field, new String[rowCount]);
-        }
-        for (int j = 0; rs.next(); j++) { // every row
-            for (int i = 1; i < columnCount; ++i) { // every column
-                table.get(md.getColumnName(i))[j] = "" + rs.getObject(i);
+        int columnCount = 0;
+        try {
+            columnCount = md.getColumnCount();
+            int rowCount = getRowCount();
+            for (String field : getColumnNames()) { // new String[] per column
+                table.put(field, new String[rowCount]);
             }
+            for (int j = 0; rs.next(); j++) { // every row
+                for (int i = 1; i < columnCount; ++i) { // every column
+                    table.get(md.getColumnName(i))[j] = "" + rs.getObject(i);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLeonException(e, "Failed to create column name map");
         }
         return table;
     }
 
     // Returns stack of hash maps structured as { columnName : columnValue }
-    public Stack<HashMap<String, Object>> asHashMapStack() {
+    public Stack<Map<String, Object>> asHashMapStack() {
         if (this.hashMapStack == null) {
-            hashMapStack = new Stack<HashMap<String, Object>>();
-            for (HashMap<String, Object> row : asHashMapList()) {
+            hashMapStack = new Stack<Map<String, Object>>();
+            for (Map<String, Object> row : asHashMapList()) {
                 hashMapStack.push(row);
             }
         }
@@ -54,9 +58,9 @@ public class ResultSetManager implements AutoCloseable {
     }
 
     // Returns list of { columnName : columnValue } structured hash maps
-    public List<HashMap<String, Object>> asHashMapList() {
+    public List<Map<String, Object>> asHashMapList() {
         if (this.hashMapList == null) {
-            hashMapList = new ArrayList<HashMap<String, Object>>();
+            hashMapList = new ArrayList<Map<String, Object>>();
             try {
 
                 int columnCount = md.getColumnCount();

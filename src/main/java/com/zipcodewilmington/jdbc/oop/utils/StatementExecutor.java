@@ -1,6 +1,8 @@
 package com.zipcodewilmington.jdbc.oop.utils;
 
 import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
 
 import java.io.Closeable;
 import java.sql.Connection;
@@ -11,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatementExecutor implements Closeable {
+    private final LoggerHandler logger;
     private final List<ResultSetHandler> resultSetHandlers = new ArrayList<>();
     private final Connection connection;
 
     public StatementExecutor(Connection connection) {
         this.connection = connection;
+        this.logger = LoggerWarehouse.getLogger(getClass());
     }
 
     /**
@@ -89,8 +93,10 @@ public class StatementExecutor implements Closeable {
 
     public void execute(String sql, Object... args) {
         try {
+            String sqlStatement = String.format(sql, args);
+            logger.info("Attempting to execute statement `%s`", sqlStatement);
             Statement statement = this.getScrollableStatement();
-            statement.execute(String.format(sql, args));
+            statement.execute(sqlStatement);
         } catch (SQLException e) {
             String errorString = "Failed to execute statement `%s`";
             String errorMessage = String.format(errorString, sql);

@@ -4,6 +4,7 @@ import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
 
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ConnectionWrapper {
@@ -49,6 +50,8 @@ public class ConnectionWrapper {
 
     public String[] getSchemaNames() {
         ResultSetHandler rsh = getCatalogs();
+        ResultSetManager rsm = new ResultSetManager(rsh.getResultSet());
+        System.out.println(rsm.asColumnNameHashMap());
         String schemaColumn = rsh.getColumnName(1);
         System.out.println(schemaColumn);
         String[] schemaNames = rsh.getRows(schemaColumn);
