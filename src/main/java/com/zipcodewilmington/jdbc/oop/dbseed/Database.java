@@ -3,10 +3,12 @@ package com.zipcodewilmington.jdbc.oop.dbseed;
 import com.mysql.jdbc.Driver;
 import com.zipcodewilmington.jdbc.oop.utils.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.oop.utils.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.oop.utils.ResultSetHandler;
 import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public enum Database {
     POKEMON(new ConnectionBuilder()
