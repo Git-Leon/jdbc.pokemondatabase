@@ -46,31 +46,21 @@ public enum Database {
     }
 
     public boolean isNull() {
-        String databaseName = connectionWrapper.getCatalog();
         return connectionWrapper.hasDatabase(name());
     }
 
     public void drop() {
-        if (!isNull()) {
-            String sqlStatement = "DROP DATABASE %s ;";
-            try {
-                statementExecutor.execute(sqlStatement, name());
-            } catch(SQLeonException se) {
-                se.printStackTrace();
-            }
-        }
+        String sqlStatement = "DROP DATABASE IF EXISTS %s;";
+        statementExecutor.execute(sqlStatement, name());
     }
 
     public void create() {
-        if (true || isNull()) {
-            String sqlStatement = "CREATE DATABASE %s ;";
-            statementExecutor.execute(sqlStatement, name());
-        }
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS %s;";
+        statementExecutor.execute(sqlStatement, name());
     }
 
     public void use() {
-        create();
-        String sqlStatement = "USE DATABASE %s ;";
+        String sqlStatement = "USE %s;";
         statementExecutor.execute(sqlStatement, name());
     }
 
@@ -89,7 +79,7 @@ public enum Database {
             try {
                 Class.forName(driver.getClass().getName());
             } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
+                throw new SQLeonException(e1);
             }
         }
     }

@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.EmptyStackException;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * Ensures schemas are initialized only once
@@ -26,8 +29,15 @@ public class MigrationsTable {
         String queryStatement = "SELECT COUNT(1) FROM migrations WHERE filename = '" + filename + "'";
         ResultSetHandler rsh = statementExecutor.executeQuery(queryStatement);
         String columnName = rsh.getColumnName(1);
-        String count = rsh.toStack().pop().get(columnName);
-        return count.equals("1");
+        Stack<Map<String, String>> stack = rsh.toStack();
+
+        try {
+            Map<String, String> firstRow = stack.pop();
+            String firstColumnValue = firstRow.get(columnName);
+            return firstColumnValue.equals("1");
+        } catch (EmptyStackException ese) {
+            return false;
+        }
     }
 
     public void insert(File file) throws IOException {
@@ -44,7 +54,6 @@ public class MigrationsTable {
     }
 
     public void importFilesFromPath(String migrationsPath) throws IOException {
-        System.out.println(migrationsPath);
         File directory = new File(migrationsPath);
         assert (directory.isDirectory());
         File[] files = directory.listFiles();

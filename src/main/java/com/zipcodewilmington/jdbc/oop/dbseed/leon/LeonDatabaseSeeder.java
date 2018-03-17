@@ -1,6 +1,5 @@
 package com.zipcodewilmington.jdbc.oop.dbseed.leon;
 
-import com.zipcodewilmington.jdbc.oop.dbseed.Database;
 import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
 
 import java.sql.Connection;
@@ -12,13 +11,6 @@ public class LeonDatabaseSeeder {
         this.connection = connection;
     }
 
-    public LeonDatabaseSeeder() {
-        this.connection = Database.POKEMON.getConnection();
-    }
-
-    public void dropTable() {
-
-    }
 
     public void importFilesFromResourcesDirectory() {
         SQLScriptExecutorBuilder builder = new SQLScriptExecutorBuilder(connection);

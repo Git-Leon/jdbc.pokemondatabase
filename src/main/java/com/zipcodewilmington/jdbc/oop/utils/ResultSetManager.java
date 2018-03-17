@@ -25,8 +25,22 @@ public class ResultSetManager implements AutoCloseable {
     }
 
     // Returns a { columnName : columnValues } structured hash map.
-    public Map<String, String[]> asColumnNameHashMap() {
-        Map<String, String[]> table = new HashMap<String, String[]>();
+    public Map<String, String[]> asColumnNameMap() {
+        Map<String, String[]> table = new HashMap<String, String[]>() {
+            @Override
+            public String toString() {
+                StringBuilder sb = new StringBuilder();
+                Set<Entry<String, String[]>> entrySet = entrySet();
+                for (Entry<String, String[]> stringEntry : entrySet) {
+                    String columnName = stringEntry.getKey();
+                    String[] columnValues = stringEntry.getValue();
+                    String columnVals = Arrays.toString(columnValues);
+
+                    sb.append("\n" + columnName + " = " + columnVals);
+                }
+                return sb.toString();
+            }
+        };
 
         int columnCount = 0;
         try {
@@ -47,10 +61,10 @@ public class ResultSetManager implements AutoCloseable {
     }
 
     // Returns stack of hash maps structured as { columnName : columnValue }
-    public Stack<Map<String, Object>> asHashMapStack() {
+    public Stack<Map<String, Object>> asMapStack() {
         if (this.hashMapStack == null) {
             hashMapStack = new Stack<Map<String, Object>>();
-            for (Map<String, Object> row : asHashMapList()) {
+            for (Map<String, Object> row : asMapList()) {
                 hashMapStack.push(row);
             }
         }
@@ -58,7 +72,7 @@ public class ResultSetManager implements AutoCloseable {
     }
 
     // Returns list of { columnName : columnValue } structured hash maps
-    public List<Map<String, Object>> asHashMapList() {
+    public List<Map<String, Object>> asMapList() {
         if (this.hashMapList == null) {
             hashMapList = new ArrayList<Map<String, Object>>();
             try {

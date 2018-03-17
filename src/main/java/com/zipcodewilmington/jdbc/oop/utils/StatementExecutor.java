@@ -94,9 +94,9 @@ public class StatementExecutor implements Closeable {
     public void execute(String sql, Object... args) {
         try {
             String sqlStatement = String.format(sql, args);
-            logger.info("Attempting to execute statement `%s`", sqlStatement);
             Statement statement = this.getScrollableStatement();
             statement.execute(sqlStatement);
+            logger.info("Executed statement `%s`", sqlStatement);
         } catch (SQLException e) {
             String errorString = "Failed to execute statement `%s`";
             String errorMessage = String.format(errorString, sql);

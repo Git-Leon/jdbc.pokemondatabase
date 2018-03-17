@@ -6,9 +6,7 @@ import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.Generated;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.Connection;
 import java.util.Map;
 
 public class LeonDatabaseSeederTest {
@@ -21,8 +19,9 @@ public class LeonDatabaseSeederTest {
     }
 
     @Test
-    public void test() {
-        LeonDatabaseSeeder seeder = new LeonDatabaseSeeder();
+    public void test1() {
+        Connection connection = Database.POKEMON.getConnection();
+        LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(connection);
         seeder.importFilesFromResourcesDirectory();
 
         StatementExecutor executor = seeder.getStatementExecutor();
@@ -31,4 +30,5 @@ public class LeonDatabaseSeederTest {
             System.out.println(row.toString());
         }
     }
+
 }
