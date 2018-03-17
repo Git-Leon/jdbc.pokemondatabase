@@ -122,6 +122,9 @@ public class StatementExecutor implements Closeable {
         }
     }
 
+    public LoggerHandler getLogger() {
+        return logger;
+    }
 
     @Override // Invoked upon garbage collection
     public void finalize() {

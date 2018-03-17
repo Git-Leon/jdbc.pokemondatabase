@@ -21,7 +21,15 @@ public class ResultSetHandler implements Closeable {
     }
 
     public Stack<Map<String, String>> toStack() {
-        Stack<Map<String, String>> stack = new Stack();
+        Stack<Map<String, String>> stack = new Stack<Map<String, String>>() {
+            public String toString() {
+                StringBuilder sb = new StringBuilder();
+                for (Map<String, String> row : this) {
+                    sb.append("\n" + row.toString());
+                }
+                return sb.toString();
+            }
+        };
         stack.addAll(toList());
         return stack;
     }

@@ -9,7 +9,6 @@ import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
 import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -34,7 +33,7 @@ public enum Database {
     Database(Connection connection) {
         this.connectionWrapper = new ConnectionWrapper(connection);
         this.statementExecutor = new StatementExecutor(connection);
-        this.logger = LoggerWarehouse.getLogger(name());
+        this.logger = LoggerWarehouse.getLogger(getClass().getName());
     }
 
     public Connection getConnection() {
@@ -62,10 +61,6 @@ public enum Database {
     public void use() {
         String sqlStatement = "USE %s;";
         statementExecutor.execute(sqlStatement, name());
-    }
-
-    public DatabaseMetaData getMetaData() {
-        return connectionWrapper.getMetaData();
     }
 
     // Attempt to register JDBC Driver
