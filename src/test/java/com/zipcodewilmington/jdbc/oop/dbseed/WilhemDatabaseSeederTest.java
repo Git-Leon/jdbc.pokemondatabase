@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Connection;
-import java.util.Map;
 
 public class WilhemDatabaseSeederTest {
     private WilhemDatabaseSeeder wilhemDatabaseSeeder;
