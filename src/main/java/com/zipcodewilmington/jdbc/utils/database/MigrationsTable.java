@@ -1,7 +1,7 @@
-package com.zipcodewilmington.jdbc.oop.dbseed.wilhem;
+package com.zipcodewilmington.jdbc.utils.database;
 
-import com.zipcodewilmington.jdbc.oop.utils.ResultSetHandler;
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.database.resultset.ResultSetHandler;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,6 +1,6 @@
-package com.zipcodewilmington.jdbc.oop.dbseed.leon;
+package com.zipcodewilmington.jdbc.utils.io;
 
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 /**
@@ -32,7 +31,6 @@ public class SQLScriptExecutor {
 
     /**
      * Imports each of the SQL files that have been appended to this object
-     *
      * @throws SQLException
      */
     public void executeScripts(){

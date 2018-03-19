@@ -1,7 +1,8 @@
-package com.zipcodewilmington.jdbc.oop.dbseed.wilhem;
+package com.zipcodewilmington.jdbc.utils.database.dbseed;
 
 
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.database.MigrationsTable;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 
 import java.io.IOException;
 import java.sql.Connection;

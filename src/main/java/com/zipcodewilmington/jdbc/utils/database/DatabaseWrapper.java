@@ -1,6 +1,6 @@
-package com.zipcodewilmington.jdbc.oop.dbseed;
+package com.zipcodewilmington.jdbc.utils.database;
 
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 
 import java.sql.Connection;
 
@@ -19,7 +19,7 @@ public class DatabaseWrapper {
     }
 
     // TODO
-    public Table getTable(String name) {
+    public DatabaseTable getTable(String name) {
         return null;
     }
 }

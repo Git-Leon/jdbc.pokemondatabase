@@ -1,8 +1,9 @@
-package com.zipcodewilmington.jdbc.oop.utils;
+package com.zipcodewilmington.jdbc.utils.database.connection;
 
-import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
+import com.zipcodewilmington.jdbc.utils.database.resultset.ResultSetHandler;
+import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerWarehouse;
 
 import java.io.Closeable;
 import java.sql.Connection;

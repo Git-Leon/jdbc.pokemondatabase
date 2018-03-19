@@ -1,12 +1,12 @@
-package com.zipcodewilmington.jdbc.oop.dbseed;
+package com.zipcodewilmington.jdbc.utils.database;
 
 import com.mysql.jdbc.Driver;
-import com.zipcodewilmington.jdbc.oop.utils.ConnectionBuilder;
-import com.zipcodewilmington.jdbc.oop.utils.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
-import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
+import com.zipcodewilmington.jdbc.utils.database.connection.ConnectionBuilder;
+import com.zipcodewilmington.jdbc.utils.database.connection.ConnectionWrapper;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerWarehouse;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
