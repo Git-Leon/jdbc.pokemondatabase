@@ -18,13 +18,13 @@ public class StatementExecutor implements Closeable {
     private final Connection connection;
 
     public StatementExecutor(Connection connection) {
+        String loggerName = getClass().getSimpleName() + connection.toString();
+        this.logger = LoggerWarehouse.getLogger(loggerName);
         this.connection = connection;
-        this.logger = LoggerWarehouse.getLogger(getClass());
     }
 
     /**
      * executes update statement on the respective connection object
-     *
      * @param updateStatement string representative of a SQL update statement
      */
     public void executeUpdate(String updateStatement) {
@@ -35,10 +35,8 @@ public class StatementExecutor implements Closeable {
         }
     }
 
-
     /**
      * executes query statement on the respective connection object
-     *
      * @param queryStatement string representative of a SQL query statement
      */
     public ResultSetHandler executeQuery(String queryStatement) {
@@ -49,7 +47,6 @@ public class StatementExecutor implements Closeable {
 
     /**
      * executes query statement on the respective connection object
-     *
      * @param queryStatement string representative of a SQL query statement
      * @return wrapper of ResultSet
      */
