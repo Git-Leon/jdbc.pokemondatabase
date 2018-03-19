@@ -31,6 +31,7 @@ public class MigrationsTable {
         ResultSetHandler rsh = statementExecutor.executeQuery(queryStatement);
         String columnName = rsh.getColumnName(1);
         Stack<Map<String, String>> stack = rsh.toStack();
+        System.out.println("foo "+stack.toString());
         Map<String, String> firstRow = stack.pop();
         String firstColumnValue = firstRow.get(columnName);
         return firstColumnValue.equals("1");

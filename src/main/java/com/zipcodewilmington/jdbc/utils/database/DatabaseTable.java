@@ -23,7 +23,7 @@ public class DatabaseTable {
      */
     public ResultSetHandler select(String fieldNames) {
         // TODO - implement StatementBuidler
-        return executor.executeQuery("SELECT %s FROM %s;", fieldNames, tableName);
+        return this.where(fieldNames, "1=1");
     }
 
     /**
