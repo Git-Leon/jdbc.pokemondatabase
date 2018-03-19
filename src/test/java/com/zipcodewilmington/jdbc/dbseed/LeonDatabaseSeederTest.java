@@ -1,6 +1,7 @@
 package com.zipcodewilmington.jdbc.dbseed;
 
 import com.zipcodewilmington.jdbc.utils.database.Database;
+import com.zipcodewilmington.jdbc.utils.database.DatabaseTable;
 import com.zipcodewilmington.jdbc.utils.database.dbseed.LeonDatabaseSeeder;
 import com.zipcodewilmington.jdbc.utils.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
@@ -11,11 +12,9 @@ import org.junit.Test;
 import java.sql.Connection;
 
 public class LeonDatabaseSeederTest {
-
     @Before
     public void setup() {
-        LoggerWarehouse.getLogger(StatementExecutor.class).disablePrinting();
-
+        Database.POKEMON.disableLogging();
         Database.POKEMON.drop();
         Database.POKEMON.create();
         Database.POKEMON.use();
@@ -23,12 +22,16 @@ public class LeonDatabaseSeederTest {
 
     @Test
     public void test() {
+        // Given
         Connection connection = Database.POKEMON.getConnection();
         LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(connection);
+
+        // When
         seeder.importFilesFromResourcesDirectory();
 
-        StatementExecutor executor = seeder.getStatementExecutor();
-        ResultSetHandler rsh = executor.executeQuery("SELECT * FROM pokemons");
+        // Then
+        DatabaseTable table = Database.POKEMON.getTable("pokemons");
+        ResultSetHandler rsh  = table.select("*");
         System.out.println(rsh.toStack().toString());
     }
 

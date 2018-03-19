@@ -26,14 +26,12 @@ public enum Database {
         registerJDBCDriver();
     }
 
-    private final LoggerHandler logger;
     private final ConnectionWrapper connectionWrapper;
     private final StatementExecutor statementExecutor;
 
     Database(Connection connection) {
         this.connectionWrapper = new ConnectionWrapper(connection);
         this.statementExecutor = new StatementExecutor(connection);
-        this.logger = LoggerWarehouse.getLogger(getClass().getName());
     }
 
     public Connection getConnection() {
@@ -63,6 +61,16 @@ public enum Database {
         statementExecutor.execute(sqlStatement, name());
     }
 
+    public void disableLogging() {
+        LoggerHandler logger = statementExecutor.getLogger();
+        logger.disablePrinting();
+    }
+
+    private void enableLogging() {
+        LoggerHandler logger = statementExecutor.getLogger();
+        logger.enablePrinting();
+    }
+
     // Attempt to register JDBC Driver
     private static void registerJDBCDriver() {
         Driver driver = null;
@@ -77,5 +85,9 @@ public enum Database {
                 throw new SQLeonException(e1);
             }
         }
+    }
+
+    public DatabaseTable getTable(String pokemons) {
+        return new DatabaseTable(this, pokemons);
     }
 }
