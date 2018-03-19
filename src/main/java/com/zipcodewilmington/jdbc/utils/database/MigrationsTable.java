@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.utils.database;
 
-import com.zipcodewilmington.jdbc.utils.database.resultset.ResultSetHandler;
+import com.zipcodewilmington.jdbc.utils.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 
 import java.io.BufferedReader;

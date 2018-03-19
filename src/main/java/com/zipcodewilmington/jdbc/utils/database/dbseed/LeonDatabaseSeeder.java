@@ -1,8 +1,8 @@
 package com.zipcodewilmington.jdbc.utils.database.dbseed;
 
 import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.utils.io.SQLScriptExecutor;
-import com.zipcodewilmington.jdbc.utils.io.SQLScriptExecutorBuilder;
+import com.zipcodewilmington.jdbc.utils.database.io.SQLScriptExecutor;
+import com.zipcodewilmington.jdbc.utils.database.io.SQLScriptExecutorBuilder;
 
 import java.sql.Connection;
 

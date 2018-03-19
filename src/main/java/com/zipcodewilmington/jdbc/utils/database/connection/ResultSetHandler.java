@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.utils.database.resultset;
+package com.zipcodewilmington.jdbc.utils.database.connection;
 
 import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
 

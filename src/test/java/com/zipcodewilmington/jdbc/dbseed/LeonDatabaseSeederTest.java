@@ -2,7 +2,7 @@ package com.zipcodewilmington.jdbc.dbseed;
 
 import com.zipcodewilmington.jdbc.utils.database.Database;
 import com.zipcodewilmington.jdbc.utils.database.dbseed.LeonDatabaseSeeder;
-import com.zipcodewilmington.jdbc.utils.database.resultset.ResultSetHandler;
+import com.zipcodewilmington.jdbc.utils.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 import com.zipcodewilmington.jdbc.utils.logging.LoggerWarehouse;
 import org.junit.Before;

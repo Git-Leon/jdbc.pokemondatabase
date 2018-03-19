@@ -1,7 +1,5 @@
 package com.zipcodewilmington.jdbc.utils.database.connection;
 
-import com.zipcodewilmington.jdbc.utils.database.resultset.ResultSetHandler;
-import com.zipcodewilmington.jdbc.utils.database.resultset.ResultSetManager;
 import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
 
 import java.sql.Connection;
