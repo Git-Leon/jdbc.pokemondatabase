@@ -35,12 +35,21 @@ public class ResultSetHandler implements Closeable {
         return stack;
     }
 
+    // Returns a { columnName : columnValues } structured hash map.
+    public Map<String, String[]> asColumnNameMap() {
+        Map<String, String[]> map = new HashMap<>();
+        for(String columnName : getColumnNames()) {
+            map.put(columnName, getRows(columnName));
+        }
+        return map;
+    }
+
     public List<Map<String, String>> toList() {
         List<Map<String, String>> list = null;
         try {
             list = _toList();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLeonException(e, "Failed to create list from result set");
         }
         return list;
     }
@@ -50,7 +59,7 @@ public class ResultSetHandler implements Closeable {
         int columns = md.getColumnCount();
         List<Map<String, String>> list = new ArrayList<>();
 
-        //resultSet.first();
+        resultSet.beforeFirst();
         while (resultSet.next()) {
             HashMap<String, String> row = new HashMap<>(columns);
             for (int i = 1; i <= columns; ++i) {
@@ -128,7 +137,6 @@ public class ResultSetHandler implements Closeable {
                 columnNames[i] = getValue(columnName);
             }
         }
-
         return columnNames;
     }
 

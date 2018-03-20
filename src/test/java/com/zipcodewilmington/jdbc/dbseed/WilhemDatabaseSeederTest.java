@@ -8,13 +8,14 @@ import com.zipcodewilmington.jdbc.utils.database.dbseed.WilhemDatabaseSeeder;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
+import java.util.Arrays;
 
 public class WilhemDatabaseSeederTest {
     @Before
     public void setup() {
         Database.POKEMON.disableLogging();
-        Database.POKEMON.drop();
         Database.POKEMON.create();
         Database.POKEMON.use();
     }
@@ -29,9 +30,8 @@ public class WilhemDatabaseSeederTest {
         wilhemDatabaseSeeder.run();
 
         // Then
+        System.out.println(Arrays.toString(Database.POKEMON.getSchemas()));
         DatabaseTable pokemons = Database.POKEMON.getTable("pokemons");
-        ResultSetHandler rsh  = pokemons.select("*");
-        String actual = rsh.toStack().toString();
-        System.out.println(actual);
+        System.out.println(pokemons.toString());
     }
 }
