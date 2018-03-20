@@ -3,7 +3,7 @@ package com.zipcodewilmington.jdbc.dbseed;
 import com.zipcodewilmington.jdbc.utils.database.Database;
 import org.junit.Test;
 
-public class DatabaseTest {
+public class PokemonDatabaseTest {
 
     @Test
     public void use() {

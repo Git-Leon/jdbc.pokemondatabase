@@ -22,9 +22,4 @@ public class LeonDatabaseSeeder {
         SQLScriptExecutor scriptExecutor = builder.build();
         scriptExecutor.executeScripts();
     }
-
-    public StatementExecutor getStatementExecutor() {
-        return new StatementExecutor(connection);
-    }
-
 }
