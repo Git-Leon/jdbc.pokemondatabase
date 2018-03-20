@@ -1,6 +1,6 @@
-package com.zipcodewilmington.jdbc.oop.utils;
+package com.zipcodewilmington.jdbc.utils.database.connection;
 
-import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
 
 import java.io.Closeable;
 import java.sql.ResultSet;
@@ -22,6 +22,7 @@ public class ResultSetHandler implements Closeable {
 
     public Stack<Map<String, String>> toStack() {
         Stack<Map<String, String>> stack = new Stack<Map<String, String>>() {
+            @Override
             public String toString() {
                 StringBuilder sb = new StringBuilder();
                 for (Map<String, String> row : this) {
@@ -49,7 +50,7 @@ public class ResultSetHandler implements Closeable {
         int columns = md.getColumnCount();
         List<Map<String, String>> list = new ArrayList<>();
 
-        resultSet.first();
+        //resultSet.first();
         while (resultSet.next()) {
             HashMap<String, String> row = new HashMap<>(columns);
             for (int i = 1; i <= columns; ++i) {

@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.oop;
+package com.zipcodewilmington.jdbc;
 
 /**
  * Created by leon on 3/13/18.

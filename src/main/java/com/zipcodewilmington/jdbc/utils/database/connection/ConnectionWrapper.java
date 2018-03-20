@@ -1,6 +1,6 @@
-package com.zipcodewilmington.jdbc.oop.utils;
+package com.zipcodewilmington.jdbc.utils.database.connection;
 
-import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.oop.utils.exception;
+package com.zipcodewilmington.jdbc.utils.exception;
 
 public class SQLeonException extends Error {
     private final Throwable throwable;

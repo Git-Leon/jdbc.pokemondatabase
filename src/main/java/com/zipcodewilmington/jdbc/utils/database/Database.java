@@ -1,12 +1,12 @@
-package com.zipcodewilmington.jdbc.oop.dbseed;
+package com.zipcodewilmington.jdbc.utils.database;
 
 import com.mysql.jdbc.Driver;
-import com.zipcodewilmington.jdbc.oop.utils.ConnectionBuilder;
-import com.zipcodewilmington.jdbc.oop.utils.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
-import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
+import com.zipcodewilmington.jdbc.utils.database.connection.ConnectionBuilder;
+import com.zipcodewilmington.jdbc.utils.database.connection.ConnectionWrapper;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerWarehouse;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,14 +26,12 @@ public enum Database {
         registerJDBCDriver();
     }
 
-    private final LoggerHandler logger;
     private final ConnectionWrapper connectionWrapper;
     private final StatementExecutor statementExecutor;
 
     Database(Connection connection) {
         this.connectionWrapper = new ConnectionWrapper(connection);
         this.statementExecutor = new StatementExecutor(connection);
-        this.logger = LoggerWarehouse.getLogger(getClass().getName());
     }
 
     public Connection getConnection() {
@@ -63,6 +61,16 @@ public enum Database {
         statementExecutor.execute(sqlStatement, name());
     }
 
+    public void disableLogging() {
+        LoggerHandler logger = statementExecutor.getLogger();
+        logger.disablePrinting();
+    }
+
+    private void enableLogging() {
+        LoggerHandler logger = statementExecutor.getLogger();
+        logger.enablePrinting();
+    }
+
     // Attempt to register JDBC Driver
     private static void registerJDBCDriver() {
         Driver driver = null;
@@ -70,12 +78,16 @@ public enum Database {
             driver = new Driver();
             DriverManager.registerDriver(driver);
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 Class.forName(driver.getClass().getName());
             } catch (ClassNotFoundException e1) {
+                e.printStackTrace();
                 throw new SQLeonException(e1);
             }
         }
+    }
+
+    public DatabaseTable getTable(String pokemons) {
+        return new DatabaseTable(this, pokemons);
     }
 }

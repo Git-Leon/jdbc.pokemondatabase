@@ -1,8 +1,8 @@
-package com.zipcodewilmington.jdbc.oop.utils;
+package com.zipcodewilmington.jdbc.utils.database.connection;
 
-import com.zipcodewilmington.jdbc.oop.utils.exception.SQLeonException;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerHandler;
-import com.zipcodewilmington.jdbc.oop.utils.logging.LoggerWarehouse;
+import com.zipcodewilmington.jdbc.utils.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.utils.logging.LoggerWarehouse;
 
 import java.io.Closeable;
 import java.sql.Connection;
@@ -14,50 +14,52 @@ import java.util.List;
 
 public class StatementExecutor implements Closeable {
     private final LoggerHandler logger;
-    private final List<ResultSetHandler> resultSetHandlers = new ArrayList<>();
     private final Connection connection;
+    private final List<ResultSetHandler> resultSetHandlers = new ArrayList<>();
 
     public StatementExecutor(Connection connection) {
+        String loggerName = getClass().getSimpleName() + connection.toString();
+        this.logger = LoggerWarehouse.getLogger(loggerName);
         this.connection = connection;
-        this.logger = LoggerWarehouse.getLogger(getClass());
     }
 
     /**
      * executes update statement on the respective connection object
-     *
-     * @param updateStatement string representative of a SQL update statement
+     * @param sql string representative of a SQL update statement
+     * @param args optional string arguments
      */
-    public void executeUpdate(String updateStatement) {
+    public void executeUpdate(String sql, Object... args) {
         try {
-            getScrollableStatement().executeUpdate(updateStatement);
+            String sqlStatement = String.format(sql, args);
+            getScrollableStatement().executeUpdate(sqlStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
     /**
      * executes query statement on the respective connection object
-     *
-     * @param queryStatement string representative of a SQL query statement
+     * @param sql string representative of a SQL query statement
+     * @param args optional string arguments
      */
-    public ResultSetHandler executeQuery(String queryStatement) {
-        ResultSetHandler resultSetHandler = this.query(queryStatement);
+    public ResultSetHandler executeQuery(String sql, Object... args) {
+        ResultSetHandler resultSetHandler = this.query(sql, args);
         resultSetHandlers.add(resultSetHandler);
         return resultSetHandler;
     }
 
     /**
      * executes query statement on the respective connection object
-     *
-     * @param queryStatement string representative of a SQL query statement
+     * @param sql string representative of a SQL query statement
+     * @param args optional string arguments
      * @return wrapper of ResultSet
      */
-    private ResultSetHandler query(String queryStatement) {
+    private ResultSetHandler query(String sql, Object... args) {
         ResultSet resultSet = null;
         try {
+            String sqlStatement = String.format(sql, args);
             Statement statement = this.getScrollableStatement();
-            resultSet = statement.executeQuery(queryStatement);
+            resultSet = statement.executeQuery(sqlStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,27 +72,16 @@ public class StatementExecutor implements Closeable {
     }
 
 
-    /**
-     * closes connection object and all resultSetHandlers
-     */
-    @Override
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        for (ResultSetHandler resultSetHandler : resultSetHandlers) {
-            resultSetHandler.close();
-        }
-    }
-
     public void executeAndCommit(String s) {
         execute(s);
         commit();
     }
 
+    /**
+     * executes a statement on the respective connection object
+     * @param sql string representative of a SQL update statement
+     * @param args optional string arguments
+     */
     public void execute(String sql, Object... args) {
         try {
             String sqlStatement = String.format(sql, args);
@@ -104,6 +95,9 @@ public class StatementExecutor implements Closeable {
         }
     }
 
+    /**
+     * @return scroll-insensitive statement
+     */
     public Statement getScrollableStatement() {
         try {
             return connection.createStatement(
@@ -124,6 +118,22 @@ public class StatementExecutor implements Closeable {
 
     public LoggerHandler getLogger() {
         return logger;
+    }
+
+    /**
+     * closes connection object and all resultSetHandlers
+     */
+    @Override
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (ResultSetHandler resultSetHandler : resultSetHandlers) {
+            resultSetHandler.close();
+        }
     }
 
     @Override // Invoked upon garbage collection

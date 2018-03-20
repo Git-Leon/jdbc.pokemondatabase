@@ -1,7 +1,7 @@
-package com.zipcodewilmington.jdbc.oop.dbseed.wilhem;
+package com.zipcodewilmington.jdbc.utils.database;
 
-import com.zipcodewilmington.jdbc.oop.utils.ResultSetHandler;
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+import com.zipcodewilmington.jdbc.utils.database.connection.ResultSetHandler;
+import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.Stack;
  * Ensures schemas are initialized only once
  */
 public class MigrationsTable {
-    private final StatementExecutor statementExecutor;
+    private StatementExecutor statementExecutor;
 
     public MigrationsTable(Connection connection) {
         String sqlStatement = "CREATE TABLE IF NOT EXISTS migrations(filename TEXT)";
@@ -30,14 +30,9 @@ public class MigrationsTable {
         ResultSetHandler rsh = statementExecutor.executeQuery(queryStatement);
         String columnName = rsh.getColumnName(1);
         Stack<Map<String, String>> stack = rsh.toStack();
-
-        try {
-            Map<String, String> firstRow = stack.pop();
-            String firstColumnValue = firstRow.get(columnName);
-            return firstColumnValue.equals("1");
-        } catch (EmptyStackException ese) {
-            return false;
-        }
+        Map<String, String> firstRow = stack.pop();
+        String firstColumnValue = firstRow.get(columnName);
+        return firstColumnValue.equals("1");
     }
 
     public void insert(File file) throws IOException {

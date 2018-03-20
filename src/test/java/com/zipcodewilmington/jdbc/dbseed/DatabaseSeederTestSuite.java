@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.oop.dbseed;
+package com.zipcodewilmington.jdbc.dbseed;
 
 
 import org.junit.runner.RunWith;
@@ -7,8 +7,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
+        LeonDatabaseSeederTest.class,
         WilhemDatabaseSeederTest.class,
-        LeonDatabaseSeederTest.class
 })
 public class DatabaseSeederTestSuite {
 }

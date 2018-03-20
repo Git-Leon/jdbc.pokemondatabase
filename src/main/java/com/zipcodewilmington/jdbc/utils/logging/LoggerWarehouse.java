@@ -1,6 +1,4 @@
-package com.zipcodewilmington.jdbc.oop.utils.logging;
-
-import com.zipcodewilmington.jdbc.oop.utils.StatementExecutor;
+package com.zipcodewilmington.jdbc.utils.logging;
 
 import java.util.HashMap;
 import java.util.Map;
