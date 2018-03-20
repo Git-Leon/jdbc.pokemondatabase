@@ -22,7 +22,6 @@ public class MigrationsTable {
         String sqlStatement = "CREATE TABLE IF NOT EXISTS migrations(filename TEXT)";
         this.statementExecutor = new StatementExecutor(connection);
         statementExecutor.executeAndCommit(sqlStatement);
-        this.statementExecutor = new StatementExecutor(connection);
     }
 
     public boolean contains(File file) {
@@ -31,7 +30,6 @@ public class MigrationsTable {
         ResultSetHandler rsh = statementExecutor.executeQuery(queryStatement);
         String columnName = rsh.getColumnName(1);
         Stack<Map<String, String>> stack = rsh.toStack();
-        System.out.println("foo "+stack.toString());
         Map<String, String> firstRow = stack.pop();
         String firstColumnValue = firstRow.get(columnName);
         return firstColumnValue.equals("1");

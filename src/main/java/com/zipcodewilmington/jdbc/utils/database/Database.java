@@ -78,10 +78,10 @@ public enum Database {
             driver = new Driver();
             DriverManager.registerDriver(driver);
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 Class.forName(driver.getClass().getName());
             } catch (ClassNotFoundException e1) {
+                e.printStackTrace();
                 throw new SQLeonException(e1);
             }
         }

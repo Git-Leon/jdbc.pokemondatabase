@@ -1,6 +1,7 @@
 package com.zipcodewilmington.jdbc.dbseed;
 
 import com.zipcodewilmington.jdbc.utils.database.Database;
+import com.zipcodewilmington.jdbc.utils.database.DatabaseTable;
 import com.zipcodewilmington.jdbc.utils.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.utils.database.connection.StatementExecutor;
 import com.zipcodewilmington.jdbc.utils.database.dbseed.WilhemDatabaseSeeder;
@@ -28,8 +29,9 @@ public class WilhemDatabaseSeederTest {
         wilhemDatabaseSeeder.run();
 
         // Then
-        StatementExecutor executor = wilhemDatabaseSeeder.getStatementExecutor();
-        ResultSetHandler rsh = executor.executeQuery("SELECT * FROM pokemons");
-        System.out.println(rsh.toStack().toString());
+        DatabaseTable pokemons = Database.POKEMON.getTable("pokemons");
+        ResultSetHandler rsh  = pokemons.select("*");
+        String actual = rsh.toStack().toString();
+        System.out.println(actual);
     }
 }

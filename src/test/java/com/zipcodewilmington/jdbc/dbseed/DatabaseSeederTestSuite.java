@@ -7,8 +7,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
+        LeonDatabaseSeederTest.class,
         WilhemDatabaseSeederTest.class,
-        LeonDatabaseSeederTest.class
 })
 public class DatabaseSeederTestSuite {
 }
