@@ -29,9 +29,7 @@ public class LeonDatabaseSeederTest {
 
         // Then
         DatabaseTable pokemons = Database.POKEMON.getTable("pokemons");
-        ResultSetHandler rsh  = pokemons.select("*");
-        String actual = rsh.toStack().toString();
-        System.out.println(actual);
+        System.out.println(pokemons.toString());
     }
 
 }

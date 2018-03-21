@@ -20,25 +20,33 @@ public class DatabaseTable {
      * executes a `SELECT {Columns} FROM $this.tableName`
      * @param fieldNames names of fields to select from Table
      * @return result set handler populated with respective results
-     */
+     */// TODO - implement StatementBuilder
     public ResultSetHandler select(String fieldNames) {
-        // TODO - implement StatementBuidler
-        return this.where(fieldNames, "1=1");
+        return this.where(fieldNames, "true");
+    }
+
+    /**
+     * executes a `SELECT * FROM $this.tableName`
+     * @param fieldNames names of fields to select from Table
+     * @param condition string representation of the clause of a `WHERE` statement
+     * @return result set handler populated with respective results
+     */// TODO - implement StatementBuilder
+    public ResultSetHandler where(String fieldNames, String condition) {
+        return executor.executeQuery("SELECT %s FROM %s WHERE %s;", fieldNames, tableName, condition);
     }
 
     /**
      * executes a `SELECT * FROM $this.tableName`
      * @param condition string representation of the clause of a `WHERE` statement
      * @return result set handler populated with respective results
-     */
-    public ResultSetHandler where(String fieldNames, String condition) {
-        // TODO - implement StatementBuidler
-        return executor.executeQuery("SELECT %s FROM %s WHERE %s;", fieldNames, tableName, condition);
+     */// TODO - implement StatementBuilder
+    public ResultSetHandler where(String condition) {
+        return where("*", condition);
     }
 
     @Override
     public String toString() {
         ResultSetHandler rsh = select("*");
-        return null;
+        return rsh.toStack().toString();
     }
 }

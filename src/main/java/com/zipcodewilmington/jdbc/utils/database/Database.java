@@ -90,4 +90,8 @@ public enum Database {
     public DatabaseTable getTable(String pokemons) {
         return new DatabaseTable(this, pokemons);
     }
+
+    public String[] getSchemas() {
+        return connectionWrapper.getSchemaNames();
+    }
 }

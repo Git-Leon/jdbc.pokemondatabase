@@ -52,8 +52,6 @@ public class ConnectionWrapper {
 
     public String[] getSchemaNames() {
         ResultSetHandler rsh = getCatalogs();
-        ResultSetManager rsm = new ResultSetManager(rsh.getResultSet());
-        System.out.println(rsm.asColumnNameMap());
         String schemaColumn = rsh.getColumnName(1);
         String[] schemaNames = rsh.getRows(schemaColumn);
         return schemaNames;
