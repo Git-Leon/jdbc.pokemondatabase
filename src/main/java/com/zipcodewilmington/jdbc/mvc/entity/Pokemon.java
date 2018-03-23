@@ -1,7 +1,7 @@
-package com.zipcodewilmington.jdbc.mvc.model;
+package com.zipcodewilmington.jdbc.mvc.entity;
 
 /**
- * A model is an entity which
+ * A entity is an entity which
  */
 public class Pokemon {
     private final long id;
