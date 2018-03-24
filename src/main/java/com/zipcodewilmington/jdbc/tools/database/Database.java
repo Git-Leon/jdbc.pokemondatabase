@@ -34,6 +34,14 @@ public enum Database {
             .setServerName("127.0.0.1")
             .setUser("root")
             .setPassword("")
+            .build()),
+
+    UAT(new ConnectionBuilder()
+            .setUrl("jdbc:mysql://localhost/")
+            .setDatabaseName("uat")
+            .setServerName("127.0.0.1")
+            .setUser("root")
+            .setPassword("")
             .build());
 
     static { // Attempt to register JDBC Driver
