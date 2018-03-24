@@ -6,15 +6,19 @@ import com.zipcodewilmington.jdbc.tools.database.dbseed.WilhemDatabaseSeeder;
 import java.sql.Connection;
 
 public class SeedRefresher {
-    public static void refresh() {
-        Database.POKEMON.drop();
-        Database.POKEMON.create();
-        Database.POKEMON.use();
-        Database.POKEMON.disableLogging();
+    @Deprecated
+    public static void refreshPokemonDatabase() {
+        refresh(Database.POKEMON);
+    }
 
-        // Given
-        Connection connection = Database.POKEMON.getConnection();
-        WilhemDatabaseSeeder seeder = new WilhemDatabaseSeeder(connection);
-        seeder.run();
+    public static void refresh() {
+        refresh(Database.UAT);
+    }
+
+    public static void refresh(Database database) {
+        database.drop();
+        database.create();
+        database.use();
+        database.disableLogging();
     }
 }

@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.mvc.dao;
 
-import com.zipcodewilmington.jdbc.mvc.model.Pokemon;
+import com.zipcodewilmington.jdbc.mvc.entity.Pokemon;
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.MapExtractor;
 import com.zipcodewilmington.jdbc.tools.database.Database;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * Created by leon on 3/13/18.
- * Dao determines how a client accesses an model from the Database.
+ * Dao determines how a client accesses an entity from the Database.
  */
 public class PokemonDao {
     private final DatabaseTable databaseTable;

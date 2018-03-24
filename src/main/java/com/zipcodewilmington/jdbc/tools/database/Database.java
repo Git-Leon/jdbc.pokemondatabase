@@ -22,7 +22,7 @@ public enum Database {
 
     DIGIMON(new ConnectionBuilder()
             .setUrl("jdbc:mysql://localhost/")
-            .setDatabaseName("pokemon")
+            .setDatabaseName("digimon")
             .setServerName("127.0.0.1")
             .setUser("root")
             .setPassword("")
@@ -30,7 +30,15 @@ public enum Database {
 
     MAGIC(new ConnectionBuilder()
             .setUrl("jdbc:mysql://localhost/")
-            .setDatabaseName("pokemon")
+            .setDatabaseName("magic")
+            .setServerName("127.0.0.1")
+            .setUser("root")
+            .setPassword("")
+            .build()),
+
+    UAT(new ConnectionBuilder()
+            .setUrl("jdbc:mysql://localhost/")
+            .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
             .setPassword("")

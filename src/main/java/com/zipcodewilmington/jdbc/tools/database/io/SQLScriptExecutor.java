@@ -66,9 +66,9 @@ public class SQLScriptExecutor {
         while (s.hasNext()) {
             String line = s.next();
             boolean condition1 = line.startsWith("/*!");
-            boolean condiiton2 = line.endsWith("*/");
-            boolean condition3 = condition1 && condiiton2;
-            if ( condition3) {
+            boolean condition2 = line.endsWith("*/");
+            boolean condition3 = condition1 && condition2;
+            if (condition3) {
                 int indexOfSpace = line.indexOf(' ');
                 line = line.substring(indexOfSpace + 1, line.length() - " */".length());
             }

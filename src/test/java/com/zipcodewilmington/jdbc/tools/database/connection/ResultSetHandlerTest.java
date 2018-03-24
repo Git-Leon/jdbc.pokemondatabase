@@ -8,11 +8,11 @@ import org.junit.Test;
 public class ResultSetHandlerTest {
     @Before
     public void setup() {
-        SeedRefresher.refresh();
+        SeedRefresher.refresh(Database.UAT);
     }
 
     @Test
     public void test() {
-        Database.POKEMON.getTable("pokemons").all();
+        ResultSetHandler rsh = Database.UAT.getTable("person").all();
     }
 }

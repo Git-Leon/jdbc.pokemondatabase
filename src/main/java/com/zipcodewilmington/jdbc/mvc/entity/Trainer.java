@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.mvc.model;
+package com.zipcodewilmington.jdbc.mvc.entity;
 
 public class Trainer {
     private final long id;
