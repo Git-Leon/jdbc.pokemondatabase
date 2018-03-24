@@ -7,6 +7,7 @@ import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
 import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
 import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
 
+import javax.persistence.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -50,8 +51,11 @@ public enum Database {
 
     private final ConnectionWrapper connectionWrapper;
     private final StatementExecutor statementExecutor;
+    private final EntityManager entityManager;
 
     Database(Connection connection) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(name());
+        this.entityManager = emf.createEntityManager();
         this.connectionWrapper = new ConnectionWrapper(connection);
         this.statementExecutor = new StatementExecutor(connection);
     }
@@ -111,5 +115,22 @@ public enum Database {
 
     public DatabaseTable getTable(String tableName) {
         return new DatabaseTable(this, tableName);
+    }
+
+    public <T> void persist(T entity) {
+        Class<?> entityClass = entity.getClass();
+        boolean isEntity = entityClass.isAnnotationPresent(Entity.class);
+        assert(isEntity);
+
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        entityManager.persist(entity);
+
+        entityTransaction.commit();
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }

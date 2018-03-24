@@ -7,6 +7,7 @@ import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,10 @@ import java.util.Map;
  * Created by leon on 3/13/18.
  * Dao determines how a client accesses an entity from the Database.
  */
-public class PokemonDao {
+public class PokemonTableDao {
     private final DatabaseTable databaseTable;
 
-    public PokemonDao() {
+    public PokemonTableDao() {
         this.databaseTable = Database.POKEMON.getTable("pokemons");
     }
 
@@ -30,6 +31,12 @@ public class PokemonDao {
     public List<Pokemon> getFirst(int limit) {
         ResultSetHandler rsh = databaseTable.limit(limit);
         return get(rsh);
+    }
+
+    public Pokemon findByid(long id) {
+        ResultSetHandler rsh = databaseTable.where("ID = " + id);
+        List<Pokemon> pokemons = get(rsh);
+        return pokemons.get(0);
     }
 
     public List<Pokemon> get(ResultSetHandler rsh) {
