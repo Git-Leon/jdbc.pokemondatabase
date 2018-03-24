@@ -15,7 +15,7 @@
 * `DatabaseTable`
     * A class-representation of a Table in a Database.
     * Very limited features:
-        * `SELECT ALL {Columns} WHERE {Condition} LIMIT {NumberOfRows}`
+        * `SELECT {ColumnNames} WHERE {Condition} LIMIT {NumberOfRows}`
     * Provides a mechanism for
         * Selecting from specified columns
         * Selecting from specified columns where some condition
