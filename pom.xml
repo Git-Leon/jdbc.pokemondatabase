@@ -19,8 +19,15 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>1.1.7</version>
+            <version>2.2.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.0-api -->
         <dependency>
@@ -29,11 +36,6 @@
             <version>1.0.1.Final</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <version>2.5.0</version>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>

@@ -4,19 +4,49 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
-    <persistence-unit name="mariaDB-eclipselink"
+    <persistence-unit name="POKEMON"
                       transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>com.zipcodewilmington.jdbc.mvc.entity.Pokemon</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/YourDBName" />
-            <property name="javax.persistence.jdbc.user" value="user" />
-            <property name="javax.persistence.jdbc.password" value="password" />
+            <property name="javax.persistence.jdbc.driver"
+                      value="org.mariadb.jdbc.Driver" />
 
-            <property name="eclipselink.logging.level" value="FINE" />
-            <property name="eclipselink.ddl-generation" value="create-tables" />
-            <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/pokemon" />
+
+            <property name="javax.persistence.jdbc.user"
+                      value="root" />
+
+            <property name="eclipselink.ddl-generation"
+                      value="drop-and-create-tables" />
+
+            <property name="eclipselink.ddl-generation.output-mode"
+                      value="database" />
         </properties>
     </persistence-unit>
+
+
+    <persistence-unit name="UAT"
+                      transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.jdbc.driver"
+                      value="org.mariadb.jdbc.Driver" />
+
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/uat" />
+
+            <property name="javax.persistence.jdbc.user"
+                      value="root" />
+
+            <property name="eclipselink.ddl-generation"
+                      value="drop-and-create-tables" />
+
+            <property name="eclipselink.ddl-generation.output-mode"
+                      value="database" />
+        </properties>
+    </persistence-unit>
+
 </persistence>

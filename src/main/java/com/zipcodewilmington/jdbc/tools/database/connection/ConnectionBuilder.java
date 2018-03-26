@@ -10,6 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by leon on 3/13/18.
  */
+@SuppressWarnings("ALL")
 public class ConnectionBuilder {
     private final MySQLDataSource dataSource;
 
@@ -22,32 +23,62 @@ public class ConnectionBuilder {
     }
 
     public ConnectionBuilder setDatabaseName(String databaseName) {
-        dataSource.setDatabaseName(databaseName);
+        try {
+            dataSource.setDatabaseName(databaseName);
+        } catch (SQLException e) {
+            String errorMessage = "Failed to set database name to";
+            throw new SQLeonException(e, errorMessage);
+        }
         return this;
     }
 
     public ConnectionBuilder setServerName(String serverName) {
-        dataSource.setServerName(serverName);
+        try {
+            dataSource.setServerName(serverName);
+        } catch (SQLException e) {
+            // TODO - add error message
+            throw new SQLeonException(e);
+        }
         return this;
     }
 
     public ConnectionBuilder setPort(int portNumber) {
-        dataSource.setPort(portNumber);
+        try {
+            dataSource.setPort(portNumber);
+        } catch (SQLException e) {
+            // TODO - add error message
+            throw new SQLeonException(e);
+        }
         return this;
     }
 
     public ConnectionBuilder setUser(String user) {
-        dataSource.setUser(user);
+        try {
+            dataSource.setUser(user);
+        } catch (SQLException e) {
+            // TODO - add error message
+            throw new SQLeonException(e);
+        }
         return this;
     }
 
     public ConnectionBuilder setPassword(String password) {
-        dataSource.setPassword(password);
+        try {
+            dataSource.setPassword(password);
+        } catch (SQLException e) {
+            // TODO - add error message
+            throw new SQLeonException(e);
+        }
         return this;
     }
 
     public ConnectionBuilder setUrl(String url) {
-        dataSource.setUrl(url);
+        try {
+            dataSource.setUrl(url);
+        } catch (SQLException e) {
+            // TODO - add error message
+            throw new SQLeonException(e);
+        }
         return this;
     }
 

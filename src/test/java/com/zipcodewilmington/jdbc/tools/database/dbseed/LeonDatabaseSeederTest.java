@@ -9,6 +9,8 @@ import org.junit.Test;
 import java.sql.Connection;
 
 public class LeonDatabaseSeederTest {
+    private LeonDatabaseSeeder seeder;
+
     @Before
     public void setup() {
         Database.POKEMON.drop();
@@ -21,7 +23,7 @@ public class LeonDatabaseSeederTest {
     public void test() {
         // Given
         Connection connection = Database.POKEMON.getConnection();
-        LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(connection);
+        this.seeder = new LeonDatabaseSeeder(connection);
 
         // When
         seeder.importFilesFromResourcesDirectory();

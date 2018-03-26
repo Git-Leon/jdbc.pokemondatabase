@@ -1,11 +1,11 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
-import com.mysql.jdbc.Driver;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
 import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
 import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
+import org.mariadb.jdbc.Driver;
 
 import javax.persistence.*;
 import java.sql.Connection;
@@ -14,31 +14,17 @@ import java.sql.SQLException;
 
 public enum Database {
     POKEMON(new ConnectionBuilder()
-            .setUrl("jdbc:mysql://localhost/")
+            .setUrl("jdbc:mariadb://localhost/")
+            .setPort(3306)
             .setDatabaseName("pokemon")
             .setServerName("127.0.0.1")
             .setUser("root")
             .setPassword("")
             .build()),
 
-    DIGIMON(new ConnectionBuilder()
-            .setUrl("jdbc:mysql://localhost/")
-            .setDatabaseName("digimon")
-            .setServerName("127.0.0.1")
-            .setUser("root")
-            .setPassword("")
-            .build()),
-
-    MAGIC(new ConnectionBuilder()
-            .setUrl("jdbc:mysql://localhost/")
-            .setDatabaseName("magic")
-            .setServerName("127.0.0.1")
-            .setUser("root")
-            .setPassword("")
-            .build()),
 
     UAT(new ConnectionBuilder()
-            .setUrl("jdbc:mysql://localhost/")
+            .setUrl("jdbc:mariadb://localhost/")
             .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
