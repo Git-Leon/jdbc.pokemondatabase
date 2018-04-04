@@ -31,11 +31,12 @@ public class SQLScriptExecutor {
 
     /**
      * Imports each of the SQL files that have been appended to this object
+     *
      * @throws SQLException
      */
-    public void executeScripts(){
+    public void executeScripts() {
         for (InputStream in : scriptsToBeExecuted) {
-          execute(connection, in);
+            execute(connection, in);
         }
     }
 

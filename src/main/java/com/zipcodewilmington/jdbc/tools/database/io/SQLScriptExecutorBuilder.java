@@ -22,18 +22,21 @@ public class SQLScriptExecutorBuilder {
 
     /**
      * appends each file in the directory to the files to be imported
+     *
      * @param directory
      */
     public void appendDirectory(File directory) {
-        assert(directory.isDirectory());
+        assert (directory.isDirectory());
         File[] files = directory.listFiles();
-        for(File file : files) {
-            appendScript(file);
+        for (File file : files) {
+            if (!file.isDirectory())
+                appendScript(file);
         }
     }
 
     /**
      * appends each file in the directory to the files to be imported
+     *
      * @param directoryPath
      */
     public void appendDirectory(String directoryPath) {
@@ -44,7 +47,7 @@ public class SQLScriptExecutorBuilder {
      * @param filePath string representative of a file path
      * @return this; implementation of builder-pattern
      */
-    public SQLScriptExecutorBuilder appendScript(String filePath)  {
+    public SQLScriptExecutorBuilder appendScript(String filePath) {
         return appendScript(new File(filePath));
     }
 
@@ -52,7 +55,7 @@ public class SQLScriptExecutorBuilder {
      * @param file a file to be imported
      * @return this; implementation of builder-pattern
      */
-    public SQLScriptExecutorBuilder appendScript(File file)  {
+    public SQLScriptExecutorBuilder appendScript(File file) {
         FileInputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file.getAbsoluteFile());
@@ -66,7 +69,7 @@ public class SQLScriptExecutorBuilder {
      * @param in input stream representative of a file path
      * @return this; implementation of builder-pattern
      */
-    public SQLScriptExecutorBuilder appendScript(InputStream in)  {
+    public SQLScriptExecutorBuilder appendScript(InputStream in) {
         scriptsToBeExecuted.add(in);
         return this;
     }
