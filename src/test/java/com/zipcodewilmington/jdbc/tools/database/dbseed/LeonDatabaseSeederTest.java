@@ -10,26 +10,28 @@ import java.sql.Connection;
 
 public class LeonDatabaseSeederTest {
     private LeonDatabaseSeeder seeder;
+    private Database database;
 
     @Before
     public void setup() {
-        Database.POKEMON.drop();
-        Database.POKEMON.create();
-        Database.POKEMON.use();
-        Database.POKEMON.disableLogging();
+        this.database = Database.UAT;
+        database.drop();
+        database.create();
+        database.use();
+        database.disableLogging();
     }
 
     @Test
     public void test() {
         // Given
-        Connection connection = Database.POKEMON.getConnection();
+        Connection connection = database.getConnection();
         this.seeder = new LeonDatabaseSeeder(connection);
 
         // When
         seeder.importFilesFromResourcesDirectory();
 
         // Then
-        DatabaseTable pokemons = Database.POKEMON.getTable("pokemons");
+        DatabaseTable pokemons = database.getTable("pokemons");
         ResultSetHandler rsh  = pokemons.select("*");
         System.out.println(rsh);
     }

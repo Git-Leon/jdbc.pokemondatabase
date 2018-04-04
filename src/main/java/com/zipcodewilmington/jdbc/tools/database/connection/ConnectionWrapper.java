@@ -14,31 +14,21 @@ import java.util.List;
  * Created by leon on 3/13/18.
  */
 public class ConnectionWrapper {
-    private Connection connection;
+    private final Connection connection;
 
     public ConnectionWrapper(Connection connection) {
         this.connection = connection;
     }
 
     public Connection getConnection() {
-        try {
-            if(connection.isClosed()) {
-                this.connection = new ConnectionBuilder()
-                        .setUrl(connection.get)
-                        .setPort()
-                        .setDatabaseName(connection.getCatalog())
-                        .setPort()
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return connection;
     }
 
     public boolean isClosed() {
         try {
             return connection.isClosed();
         } catch (SQLException e) {
-            throw new SQLeonError(e, "Failed to check if the connection was closed.")
+            throw new SQLeonError(e, "Failed to check if the connection was closed.");
         }
     }
 

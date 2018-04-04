@@ -34,8 +34,6 @@ public enum Database {
         registerJDBCDriver();
     }
 
-    private final ConnectionWrapper connectionWrapper;
-    private final StatementExecutor statementExecutor;
     private final EntityManager entityManager;
     private final ConnectionBuilder connectionBuilder;
     private final Connection connection;
@@ -47,8 +45,6 @@ public enum Database {
         this.entityManager = emf.createEntityManager();
         this.connection = connection;
         this.connectionBuilder = connectionBuilder;
-        this.connectionWrapper = new ConnectionWrapper(connection);
-        this.statementExecutor = new StatementExecutor(connection);
     }
 
     public Connection getConnection() {
@@ -60,35 +56,39 @@ public enum Database {
     }
 
     public StatementExecutor getStatementExecutor() {
-        return this.statementExecutor;
+        return new StatementExecutor(getConnection());
+    }
+
+    public ConnectionWrapper getConnectionWrapper() {
+        return new ConnectionWrapper(getConnection());
     }
 
     public boolean isNull() {
-        return connectionWrapper.hasDatabase(name());
+        return getConnectionWrapper().hasDatabase(name());
     }
 
     public void drop() {
         String sqlStatement = "DROP DATABASE IF EXISTS %s;";
-        statementExecutor.execute(sqlStatement, name());
+        getStatementExecutor().execute(sqlStatement, name());
     }
 
     public void create() {
         String sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS %s;";
-        statementExecutor.execute(sqlCreateDatabase, name());
+        getStatementExecutor().execute(sqlCreateDatabase, name());
     }
 
     public void use() {
         String sqlStatement = "USE %s;";
-        statementExecutor.execute(sqlStatement, name());
+        getStatementExecutor().execute(sqlStatement, name());
     }
 
     public void disableLogging() {
-        LoggerHandler logger = statementExecutor.getLogger();
+        LoggerHandler logger = getStatementExecutor().getLogger();
         logger.disablePrinting();
     }
 
     public void enableLogging() {
-        LoggerHandler logger = statementExecutor.getLogger();
+        LoggerHandler logger = getStatementExecutor().getLogger();
         logger.enablePrinting();
     }
 
