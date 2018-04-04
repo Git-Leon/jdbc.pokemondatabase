@@ -1,6 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
 import org.mariadb.jdbc.MySQLDataSource;
 
 import java.sql.Connection;
@@ -23,61 +24,37 @@ public class ConnectionBuilder {
     }
 
     public ConnectionBuilder setDatabaseName(String databaseName) {
-        try {
-            dataSource.setDatabaseName(databaseName);
-        } catch (SQLException e) {
-            String errorMessage = "Failed to set database name to";
-            throw new SQLeonError(e, errorMessage);
-        }
-        return this;
+        return setProperty(dataSource::setDatabaseName, databaseName, "database name");
     }
 
     public ConnectionBuilder setServerName(String serverName) {
-        try {
-            dataSource.setServerName(serverName);
-        } catch (SQLException e) {
-            // TODO - add error message
-            throw new SQLeonError(e);
-        }
-        return this;
+        return setProperty(dataSource::setServerName, serverName, "server name");
     }
 
     public ConnectionBuilder setPort(int portNumber) {
-        try {
-            dataSource.setPort(portNumber);
-        } catch (SQLException e) {
-            // TODO - add error message
-            throw new SQLeonError(e);
-        }
-        return this;
+        return setProperty(dataSource::setPort, portNumber, "port number");
     }
 
     public ConnectionBuilder setUser(String user) {
-        try {
-            dataSource.setUser(user);
-        } catch (SQLException e) {
-            // TODO - add error message
-            throw new SQLeonError(e);
-        }
-        return this;
+        return setProperty(dataSource::setUser, user, "server name");
     }
 
     public ConnectionBuilder setPassword(String password) {
-        try {
-            dataSource.setPassword(password);
-        } catch (SQLException e) {
-            // TODO - add error message
-            throw new SQLeonError(e);
-        }
-        return this;
+        return setProperty(dataSource::setPassword, password, "password");
     }
 
+
     public ConnectionBuilder setUrl(String url) {
+        return setProperty(dataSource::setServerName, url, "url");
+    }
+
+    private <E> ConnectionBuilder setProperty(ExceptionalConsumer<E> setMethod, E valueToSetTo, String propertyName) {
         try {
-            dataSource.setUrl(url);
-        } catch (SQLException e) {
-            // TODO - add error message
-            throw new SQLeonError(e);
+            setMethod.accept(valueToSetTo);
+        } catch (Throwable throwable) {
+            String error = "Failed to setProperty %s to `%s`";
+            String errorMessage = String.format(error, propertyName, valueToSetTo);
+            throw new SQLeonError(throwable);
         }
         return this;
     }

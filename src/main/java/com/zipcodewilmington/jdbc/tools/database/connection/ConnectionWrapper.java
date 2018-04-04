@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -14,14 +14,32 @@ import java.util.List;
  * Created by leon on 3/13/18.
  */
 public class ConnectionWrapper {
-    private final Connection connection;
+    private Connection connection;
 
     public ConnectionWrapper(Connection connection) {
         this.connection = connection;
     }
 
     public Connection getConnection() {
-        return connection;
+        try {
+            if(connection.isClosed()) {
+                this.connection = new ConnectionBuilder()
+                        .setUrl(connection.get)
+                        .setPort()
+                        .setDatabaseName(connection.getCatalog())
+                        .setPort()
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isClosed() {
+        try {
+            return connection.isClosed();
+        } catch (SQLException e) {
+            throw new SQLeonError(e, "Failed to check if the connection was closed.")
+        }
     }
 
     public DatabaseMetaData getMetaData() {

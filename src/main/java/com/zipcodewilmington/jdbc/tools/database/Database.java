@@ -3,8 +3,8 @@ package com.zipcodewilmington.jdbc.tools.database;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
-import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 import org.mariadb.jdbc.Driver;
 
 import javax.persistence.*;
@@ -19,8 +19,7 @@ public enum Database {
             .setDatabaseName("pokemon")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")
-            .build()),
+            .setPassword("")),
 
 
     UAT(new ConnectionBuilder()
@@ -29,8 +28,7 @@ public enum Database {
             .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")
-            .build());
+            .setPassword(""));
 
     static { // Attempt to register JDBC Driver
         registerJDBCDriver();
@@ -39,16 +37,26 @@ public enum Database {
     private final ConnectionWrapper connectionWrapper;
     private final StatementExecutor statementExecutor;
     private final EntityManager entityManager;
+    private final ConnectionBuilder connectionBuilder;
+    private final Connection connection;
 
-    Database(Connection connection) {
+    Database(ConnectionBuilder connectionBuilder) {
+        Connection connection = connectionBuilder.build();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(name());
+
         this.entityManager = emf.createEntityManager();
+        this.connection = connection;
+        this.connectionBuilder = connectionBuilder;
         this.connectionWrapper = new ConnectionWrapper(connection);
         this.statementExecutor = new StatementExecutor(connection);
     }
 
     public Connection getConnection() {
-        return connectionWrapper.getConnection();
+        ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
+        if(connectionWrapper.isClosed()) {
+            return connectionBuilder.build();
+        }
+        return connection;
     }
 
     public StatementExecutor getStatementExecutor() {

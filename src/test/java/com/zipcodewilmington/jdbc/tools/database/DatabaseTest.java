@@ -37,9 +37,4 @@ public class DatabaseTest {
         ResultSetHandler rsh = pokemons.select("*");
         System.out.println(rsh);
     }
-
-    @Test
-    public void getPokemons() {
-
-    }
 }

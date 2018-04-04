@@ -13,8 +13,8 @@ public class DatabaseTableTest {
 
     @Before
     public void setup() {
-        SeedRefresher.refreshPokemonDatabase();
-        Database givenDatabase = Database.POKEMON;
+        SeedRefresher.refresh();
+        Database givenDatabase = Database.UAT;
         String givenTableName = "pokemons";
         DatabaseTable givenTable = givenDatabase.getTable(givenTableName);
         this.table = givenTable;
