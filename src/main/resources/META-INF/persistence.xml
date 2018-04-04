@@ -36,7 +36,7 @@
                       value="org.mariadb.jdbc.Driver" />
 
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/uat" />
+                      value="jdbc:mysql://localhost:3306/" />
 
             <property name="javax.persistence.jdbc.user"
                       value="root" />
