@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -29,7 +29,7 @@ public class ConnectionWrapper {
             return connection.getMetaData();
         } catch (SQLException e) {
             String errorMessage = "Failed to retrieve metadata from the connection.";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -38,7 +38,7 @@ public class ConnectionWrapper {
             return connection.getCatalog();
         } catch (SQLException e) {
             String errorMessage = "Failed to retrieve catalog from the metadata.";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -49,7 +49,7 @@ public class ConnectionWrapper {
             return rsh;
         } catch (SQLException e) {
             String errorMessage = "Failed to retrieve the catalogs from the metadata.";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 

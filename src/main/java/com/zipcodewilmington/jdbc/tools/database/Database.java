@@ -3,7 +3,7 @@ package com.zipcodewilmington.jdbc.tools.database;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
 import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
 import org.mariadb.jdbc.Driver;
 
@@ -25,6 +25,7 @@ public enum Database {
 
     UAT(new ConnectionBuilder()
             .setUrl("jdbc:mariadb://localhost/")
+            .setPort(3306)
             .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
@@ -64,11 +65,8 @@ public enum Database {
     }
 
     public void create() {
-        String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS %s;";
         String sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS %s;";
-
         statementExecutor.execute(sqlCreateDatabase, name());
-        statementExecutor.execute(sqlCreateSchema, name());
     }
 
     public void use() {
@@ -97,7 +95,7 @@ public enum Database {
                 Class.forName(driver.getClass().getName());
             } catch (ClassNotFoundException e1) {
                 e.printStackTrace();
-                throw new SQLeonException(e1);
+                throw new SQLeonError(e1);
             }
         }
     }

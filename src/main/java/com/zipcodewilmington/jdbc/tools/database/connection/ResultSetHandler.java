@@ -2,7 +2,7 @@ package com.zipcodewilmington.jdbc.tools.database.connection;
 
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
 
 import java.io.Closeable;
 import java.sql.ResultSet;
@@ -30,7 +30,7 @@ public class ResultSetHandler implements Closeable {
         try {
             return _toMapCollection();
         } catch (SQLException e) {
-            throw new SQLeonException(e, "Failed to create map collection");
+            throw new SQLeonError(e, "Failed to create map collection");
         }
     }
 
@@ -73,7 +73,7 @@ public class ResultSetHandler implements Closeable {
         } catch (SQLException e) {
             String errorString = "Failed to get column name of column number `%s`";
             String errorMessage = String.format(errorString, i);
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
         return columnName;
     }
@@ -83,7 +83,7 @@ public class ResultSetHandler implements Closeable {
             return getMetaData().getColumnCount();
         } catch (SQLException e) {
             String errorMessage = "Failed to retrieve the column count from the Result Set";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -92,7 +92,7 @@ public class ResultSetHandler implements Closeable {
             this.metaData = resultSet.getMetaData();
         } catch (SQLException e) {
             String errorMessage = "Failed to get meta data from the Result Set.";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
         return this.metaData;
     }
@@ -126,7 +126,7 @@ public class ResultSetHandler implements Closeable {
             return resultSet.next();
         } catch (SQLException e) {
             String errorMessage = "Failed to get next record of the Result Set.";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -136,7 +136,7 @@ public class ResultSetHandler implements Closeable {
         } catch (SQLException e) {
             String errorString = "Failed to get value of column number `%s` at row number `%s`.";
             String errorMessage = String.format(errorString, i, getCurrentRowIndex());
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -146,7 +146,7 @@ public class ResultSetHandler implements Closeable {
         } catch (SQLException e) {
             String errorString = "Failed to get value of column named `%s`";
             String errorMessage = String.format(errorString, columnLabel);
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -154,11 +154,16 @@ public class ResultSetHandler implements Closeable {
         try {
             return resultSet.getRow();
         } catch (SQLException e) {
-            throw new SQLeonException(e, "Failed to get current row of the Result Set.");
+            throw new SQLeonError(e, "Failed to get current row of the Result Set.");
         }
     }
 
     public ResultSet getResultSet() {
         return resultSet;
+    }
+
+    @Override
+    public String toString() {
+        return toStack().toString();
     }
 }

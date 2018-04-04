@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
 import org.mariadb.jdbc.MySQLDataSource;
 
 import java.sql.Connection;
@@ -27,7 +27,7 @@ public class ConnectionBuilder {
             dataSource.setDatabaseName(databaseName);
         } catch (SQLException e) {
             String errorMessage = "Failed to set database name to";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
         return this;
     }
@@ -37,7 +37,7 @@ public class ConnectionBuilder {
             dataSource.setServerName(serverName);
         } catch (SQLException e) {
             // TODO - add error message
-            throw new SQLeonException(e);
+            throw new SQLeonError(e);
         }
         return this;
     }
@@ -47,7 +47,7 @@ public class ConnectionBuilder {
             dataSource.setPort(portNumber);
         } catch (SQLException e) {
             // TODO - add error message
-            throw new SQLeonException(e);
+            throw new SQLeonError(e);
         }
         return this;
     }
@@ -57,7 +57,7 @@ public class ConnectionBuilder {
             dataSource.setUser(user);
         } catch (SQLException e) {
             // TODO - add error message
-            throw new SQLeonException(e);
+            throw new SQLeonError(e);
         }
         return this;
     }
@@ -67,7 +67,7 @@ public class ConnectionBuilder {
             dataSource.setPassword(password);
         } catch (SQLException e) {
             // TODO - add error message
-            throw new SQLeonException(e);
+            throw new SQLeonError(e);
         }
         return this;
     }
@@ -77,7 +77,7 @@ public class ConnectionBuilder {
             dataSource.setUrl(url);
         } catch (SQLException e) {
             // TODO - add error message
-            throw new SQLeonException(e);
+            throw new SQLeonError(e);
         }
         return this;
     }
@@ -87,7 +87,7 @@ public class ConnectionBuilder {
             return dataSource.getConnection();
         } catch (SQLException e) {
             String errorMessage = "Failed to build a connection from the configured data source.";
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 }
