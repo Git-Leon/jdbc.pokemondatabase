@@ -64,8 +64,11 @@ public enum Database {
     }
 
     public void create() {
-        String sqlStatement = "CREATE DATABASE IF NOT EXISTS %s;";
-        statementExecutor.execute(sqlStatement, name());
+        String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS %s;";
+        String sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS %s;";
+
+        statementExecutor.execute(sqlCreateDatabase, name());
+        statementExecutor.execute(sqlCreateSchema, name());
     }
 
     public void use() {
