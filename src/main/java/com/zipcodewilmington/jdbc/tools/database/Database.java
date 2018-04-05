@@ -3,15 +3,14 @@ package com.zipcodewilmington.jdbc.tools.database;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
-import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 import org.mariadb.jdbc.Driver;
 
 import javax.persistence.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 public enum Database {
     POKEMON(new ConnectionBuilder()
             .setUrl("jdbc:mariadb://localhost/")
@@ -19,8 +18,7 @@ public enum Database {
             .setDatabaseName("pokemon")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")
-            .build()),
+            .setPassword("")),
 
 
     UAT(new ConnectionBuilder()
@@ -29,58 +27,67 @@ public enum Database {
             .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")
-            .build());
+            .setPassword(""));
 
     static { // Attempt to register JDBC Driver
         registerJDBCDriver();
     }
 
-    private final ConnectionWrapper connectionWrapper;
-    private final StatementExecutor statementExecutor;
     private final EntityManager entityManager;
+    private final ConnectionBuilder connectionBuilder;
+    private final Connection connection;
 
-    Database(Connection connection) {
+    Database(ConnectionBuilder connectionBuilder) {
+        Connection connection = connectionBuilder.build();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(name());
+
         this.entityManager = emf.createEntityManager();
-        this.connectionWrapper = new ConnectionWrapper(connection);
-        this.statementExecutor = new StatementExecutor(connection);
+        this.connection = connection;
+        this.connectionBuilder = connectionBuilder;
     }
 
     public Connection getConnection() {
-        return connectionWrapper.getConnection();
+        ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
+        if(connectionWrapper.isClosed()) {
+            return connectionBuilder.build();
+        }
+        return connection;
     }
 
     public StatementExecutor getStatementExecutor() {
-        return this.statementExecutor;
+        return new StatementExecutor(getConnection());
+    }
+
+    public ConnectionWrapper getConnectionWrapper() {
+        return new ConnectionWrapper(getConnection());
     }
 
     public boolean isNull() {
-        return connectionWrapper.hasDatabase(name());
+        return getConnectionWrapper().hasDatabase(name());
     }
 
     public void drop() {
         String sqlStatement = "DROP DATABASE IF EXISTS %s;";
-        statementExecutor.execute(sqlStatement, name());
+        getStatementExecutor().execute(sqlStatement, name());
     }
 
     public void create() {
         String sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS %s;";
-        statementExecutor.execute(sqlCreateDatabase, name());
+        getStatementExecutor().execute(sqlCreateDatabase, name());
     }
 
     public void use() {
         String sqlStatement = "USE %s;";
-        statementExecutor.execute(sqlStatement, name());
+        getStatementExecutor().execute(sqlStatement, name());
     }
 
     public void disableLogging() {
-        LoggerHandler logger = statementExecutor.getLogger();
+        LoggerHandler logger = getStatementExecutor().getLogger();
         logger.disablePrinting();
     }
 
     public void enableLogging() {
-        LoggerHandler logger = statementExecutor.getLogger();
+        LoggerHandler logger = getStatementExecutor().getLogger();
         logger.enablePrinting();
     }
 

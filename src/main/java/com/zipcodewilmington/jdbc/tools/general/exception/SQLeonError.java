@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.exception;
+package com.zipcodewilmington.jdbc.tools.general.exception;
 
 public class SQLeonError extends Error {
     private final String errorMessage;

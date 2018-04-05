@@ -8,7 +8,6 @@ import javax.swing.tree.RowMapper;
 import java.io.IOException;
 
 public class DatabaseTest {
-
     private final Database database;
 
     public DatabaseTest() {
@@ -21,7 +20,7 @@ public class DatabaseTest {
 
     @Before
     public void setup() {
-        try {
+        try { // import sql-insert-statements
             MigrationsTable table = new MigrationsTable(database.getConnection());
             String localProjectRootDirectory = System.getProperty("user.dir");
             String localResourceDirectory = "/src/main/resources/migrations/uat/";
@@ -36,10 +35,5 @@ public class DatabaseTest {
         DatabaseTable pokemons = database.getTable("pokemons");
         ResultSetHandler rsh = pokemons.select("*");
         System.out.println(rsh);
-    }
-
-    @Test
-    public void getPokemons() {
-
     }
 }

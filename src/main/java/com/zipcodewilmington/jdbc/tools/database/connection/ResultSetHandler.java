@@ -2,7 +2,7 @@ package com.zipcodewilmington.jdbc.tools.database.connection;
 
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
 
 import java.io.Closeable;
 import java.sql.ResultSet;
