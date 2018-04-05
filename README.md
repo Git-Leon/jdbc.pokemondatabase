@@ -1,6 +1,4 @@
-# JDBC Demo 
-* This project contains no config files.
-* All configuration is handled manually by raw JDBC code.
+# JDBC & JPA Demo 
 
 # How do I orient myself in this project?
 * `Database`
