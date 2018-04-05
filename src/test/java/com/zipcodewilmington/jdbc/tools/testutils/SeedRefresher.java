@@ -19,6 +19,5 @@ public class SeedRefresher {
         database.drop();
         database.create();
         database.use();
-        database.disableLogging();
     }
 }

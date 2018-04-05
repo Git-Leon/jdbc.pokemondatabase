@@ -45,7 +45,7 @@ public class ConnectionBuilder {
 
 
     public ConnectionBuilder setUrl(String url) {
-        return setProperty(dataSource::setServerName, url, "url");
+        return setProperty(dataSource::setUrl, url, "url");
     }
 
     private <E> ConnectionBuilder setProperty(ExceptionalConsumer<E> setMethod, E valueToSetTo, String propertyName) {
