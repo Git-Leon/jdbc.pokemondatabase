@@ -8,7 +8,6 @@ import javax.swing.tree.RowMapper;
 import java.io.IOException;
 
 public class DatabaseTest {
-
     private final Database database;
 
     public DatabaseTest() {

@@ -27,16 +27,4 @@ public class ConnectionBuilderTest {
                 .setPassword("")
                 .build();
     }
-
-    @Test
-    public void buildMariaDbConnection() {
-        new ConnectionBuilder()
-                .setUrl("jdbc:mariadb://localhost/")
-                .setPort(3306)
-                .setDatabaseName("uat")
-                .setServerName("127.0.0.1")
-                .setUser("root")
-                .setPassword("")
-                .build();
-    }
 }
