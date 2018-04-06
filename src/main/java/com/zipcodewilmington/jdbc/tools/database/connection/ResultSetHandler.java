@@ -37,8 +37,6 @@ public class ResultSetHandler implements Closeable {
             ResultSetMetaData md = getMetaData();
             int columns = md.getColumnCount();
             MapCollection<String, String> list = new MapCollection<>();
-
-            //resultSet.first();
             while (resultSet.next()) {
                 HashMap<String, String> row = new HashMap<>(columns);
                 for (int i = 1; i <= columns; ++i) {
