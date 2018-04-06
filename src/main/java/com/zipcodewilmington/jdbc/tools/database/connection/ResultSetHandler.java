@@ -55,7 +55,8 @@ public class ResultSetHandler implements Closeable {
 
     @Override
     public void close() {
-        tryInvoke(resultSet::close, "Failed to close connection");
+        String errorMessage = "Failed to close connection";
+        tryInvoke(resultSet::close, errorMessage);
     }
 
     @Override
@@ -108,29 +109,22 @@ public class ResultSetHandler implements Closeable {
     }
 
     public String getValue(int i) {
-        // return tryInvoke(resultSet::getObject, i, errorMessage); // TODO - Make this work
-        try {
-            return String.valueOf(resultSet.getObject(i));
-        } catch (SQLException e) {
-            String errorString = "Failed to get value of column number `%s` at row number `%s`.";
-            String errorMessage = String.format(errorString, i, getCurrentRowIndex());
-            throw new SQLeonError(e, errorMessage);
-        }
+        String errorString = "Failed to get value of column number `%s` at row number `%s`.";
+        String errorMessage = String.format(errorString, i, getCurrentRowIndex());
+        ExceptionalFunction<Integer, Object> ef = resultSet::getObject;
+        return String.valueOf(tryInvoke(ef, i, errorMessage));
     }
 
     public String getValue(String columnLabel) {
-        // return String.valueOf(tryInvoke(resultSet::getObject, columnLabel, errorMessage)); // TODO -  Make this work
-        try {
-            return String.valueOf(resultSet.getObject(columnLabel));
-        } catch (SQLException e) {
-            String errorString = "Failed to get value of column named `%s`";
-            String errorMessage = String.format(errorString, columnLabel);
-            throw new SQLeonError(e, errorMessage);
-        }
+        String errorString = "Failed to get value of column named `%s`";
+        String errorMessage = String.format(errorString, columnLabel);
+        ExceptionalFunction<String, Object> ef = resultSet::getObject;
+        return String.valueOf(tryInvoke(ef, columnLabel, errorMessage));
     }
 
     public Integer getCurrentRowIndex() {
-        return tryInvoke(resultSet::getRow, "Failed to get current row of the result set.");
+        String errorMessage = "Failed to get current row of the result set.";
+        return tryInvoke(resultSet::getRow, errorMessage);
     }
 
     public ResultSet getResultSet() {
