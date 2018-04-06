@@ -19,7 +19,7 @@ public class ConnectionWrapper {
         IS_CLOSED,
         METADATA,
         CATALOG,
-        CATALOGS;
+        CATALOGS
     }
 
     private final Connection connection;
@@ -52,10 +52,10 @@ public class ConnectionWrapper {
         }, ConnectionProperty.CATALOGS);
     }
 
-    private <E> E getProperty(ExceptionalSupplier<E> setMethod, ConnectionProperty property) {
+    private <E> E getProperty(ExceptionalSupplier<E> getMethod, ConnectionProperty property) {
         E valueRetrieved = null;
         try {
-            valueRetrieved = setMethod.get(); // invoke getter
+            valueRetrieved = getMethod.get(); // invoke getter
         } catch (Throwable throwable) {
             String error = "Failed to get property `%s`";
             String errorMessage = String.format(error, property.name());
@@ -70,7 +70,6 @@ public class ConnectionWrapper {
         String[] schemaNames = rsh.getRows(schemaColumn);
         return schemaNames;
     }
-
 
     public Boolean hasDatabase(String name) {
         List<String> schemaNames = Arrays.asList(getSchemaNames());
