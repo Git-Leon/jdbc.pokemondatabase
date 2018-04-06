@@ -1,5 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.general.functional;
 
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+
 /**
  * @author leon on 4/5/18.
  */
@@ -18,4 +20,12 @@ public interface ExceptionalRunnable {
      * @see     java.lang.Thread#run()
      */
     void run() throws Throwable;
+
+    static <T> void tryInvoke(ExceptionalRunnable method, String errorMessage) {
+        try {
+            method.run();
+        } catch (Throwable throwable) {
+            throw new SQLeonError(throwable, errorMessage);
+        }
+    }
 }

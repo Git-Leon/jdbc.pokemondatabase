@@ -11,11 +11,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Created by leon on 3/13/18.
  */
-public class  StatementExecutor implements Closeable {
+public class StatementExecutor implements Closeable {
     private final LoggerHandler logger;
     private final Connection connection;
     private final List<ResultSetHandler> resultSetHandlers = new ArrayList<>();
@@ -28,7 +29,8 @@ public class  StatementExecutor implements Closeable {
 
     /**
      * executes update statement on the respective connection object
-     * @param sql string representative of a SQL update statement
+     *
+     * @param sql  string representative of a SQL update statement
      * @param args optional string formatting arguments
      */
     public void executeUpdate(String sql, Object... args) {
@@ -44,7 +46,8 @@ public class  StatementExecutor implements Closeable {
 
     /**
      * executes query statement on the respective connection object
-     * @param sql string representative of a SQL query statement
+     *
+     * @param sql  string representative of a SQL query statement
      * @param args optional string formatting arguments
      */
     public ResultSetHandler executeQuery(String sql, Object... args) {
@@ -55,7 +58,8 @@ public class  StatementExecutor implements Closeable {
 
     /**
      * executes query statement on the respective connection object
-     * @param sql string representative of a SQL query statement
+     *
+     * @param sql  string representative of a SQL query statement
      * @param args optional string formatting arguments
      * @return wrapper of ResultSet
      */
@@ -86,7 +90,8 @@ public class  StatementExecutor implements Closeable {
 
     /**
      * executes a statement on the respective connection object
-     * @param sql string representative of a SQL update statement
+     *
+     * @param sql  string representative of a SQL update statement
      * @param args optional string formatting arguments
      */
     public void execute(String sql, Object... args) {
@@ -135,12 +140,12 @@ public class  StatementExecutor implements Closeable {
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLeonError(e);
         }
+        resultSetHandlers.parallelStream().forEach(resultSetHandler -> resultSetHandler.close());
+    }
 
-        for (ResultSetHandler resultSetHandler : resultSetHandlers) {
-            resultSetHandler.close();
-        }
+    public <InputType> void tryInvoke(Consumer<InputType> method, InputType arg) {
     }
 
     @Override // Invoked upon garbage collection
