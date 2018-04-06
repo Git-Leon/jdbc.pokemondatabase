@@ -1,6 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
 import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.functional.*;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerWarehouse;
 
@@ -12,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by leon on 3/13/18.
@@ -35,13 +37,10 @@ public class StatementExecutor implements Closeable {
      */
     public void executeUpdate(String sql, Object... args) {
         String sqlStatement = String.format(sql, args);
-        try {
-            getScrollableStatement().executeUpdate(sqlStatement);
-        } catch (SQLException e) {
-            String error = "Failed to execute update `%s`.";
-            String errorMessage = String.format(error, sqlStatement);
-            throw new SQLeonError(e, errorMessage);
-        }
+        String error = "Failed to execute update `%s`.";
+        String errorMessage = String.format(error, sqlStatement);
+        ExceptionalConsumer<String> method = getScrollableStatement()::executeUpdate;
+        ExceptionalConsumer.tryInvoke(method, sqlStatement, errorMessage);
     }
 
     /**
@@ -64,17 +63,12 @@ public class StatementExecutor implements Closeable {
      * @return wrapper of ResultSet
      */
     private ResultSetHandler query(String sql, Object... args) {
-        ResultSet resultSet = null;
         String sqlStatement = String.format(sql, args);
-        try {
-            Statement statement = this.getScrollableStatement();
-            resultSet = statement.executeQuery(sqlStatement);
-        } catch (SQLException e) {
-            String error = "Failed to execute query `%s`.";
-            String errorMessage = String.format(error, sqlStatement);
-            throw new SQLeonError(e, errorMessage);
-        }
-        return new ResultSetHandler(resultSet);
+        String error = "Failed to execute query `%s`.";
+        String errorMessage = String.format(error, sqlStatement);
+        ExceptionalFunction<String, ResultSet> method = getScrollableStatement()::executeQuery;
+        ResultSet rs = ExceptionalFunction.tryInvoke(method, sqlStatement, errorMessage);
+        return new ResultSetHandler(rs);
     }
 
 
@@ -95,37 +89,29 @@ public class StatementExecutor implements Closeable {
      * @param args optional string formatting arguments
      */
     public void execute(String sql, Object... args) {
-        try {
-            String sqlStatement = String.format(sql, args);
-            Statement statement = this.getScrollableStatement();
-            statement.execute(sqlStatement);
-            logger.info("Executed statement `%s`", sqlStatement);
-        } catch (SQLException e) {
-            String errorString = "Failed to execute statement `%s`";
-            String errorMessage = String.format(errorString, sql);
-            throw new SQLeonError(e, errorMessage);
-        }
+        String sqlStatement = String.format(sql, args);
+        String errorString = "Failed to execute statement `%s`";
+        String errorMessage = String.format(errorString, sql);
+        ExceptionalConsumer<String> method = getScrollableStatement()::execute;
+        ExceptionalConsumer.tryInvoke(method, sqlStatement, errorMessage);
+        logger.info("Executed statement `%s`", sqlStatement);
     }
 
     /**
      * @return scroll-insensitive statement
      */
     public Statement getScrollableStatement() {
-        try {
-            return connection.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-        } catch (SQLException e) {
-            throw new SQLeonError(e, "Failed to create a Statement.");
-        }
+        String errorMessage = "Failed to create a Statement.";
+        return ExceptionalBiFunction.tryInvoke(
+                connection::createStatement,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY,
+                errorMessage);
     }
 
     public void commit() {
-        try {
-            connection.commit();
-        } catch (SQLException e) {
-            throw new SQLeonError(e, "Failed to execute commit.");
-        }
+        String errorMessage = "Failed to execute commit.";
+        ExceptionalRunnable.tryInvoke(connection::commit, errorMessage);
     }
 
     public LoggerHandler getLogger() {
@@ -137,15 +123,9 @@ public class StatementExecutor implements Closeable {
      */
     @Override
     public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new SQLeonError(e);
-        }
+        String errorMessage = "Failed to close connection.";
+        ExceptionalRunnable.tryInvoke(connection::close, errorMessage);
         resultSetHandlers.parallelStream().forEach(resultSetHandler -> resultSetHandler.close());
-    }
-
-    public <InputType> void tryInvoke(Consumer<InputType> method, InputType arg) {
     }
 
     @Override // Invoked upon garbage collection
