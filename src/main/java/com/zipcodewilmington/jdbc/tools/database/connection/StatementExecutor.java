@@ -1,8 +1,8 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
-import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
-import com.zipcodewilmington.jdbc.tools.logging.LoggerWarehouse;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.tools.general.logging.LoggerWarehouse;
 
 import java.io.Closeable;
 import java.sql.Connection;
@@ -32,11 +32,13 @@ public class  StatementExecutor implements Closeable {
      * @param args optional string formatting arguments
      */
     public void executeUpdate(String sql, Object... args) {
+        String sqlStatement = String.format(sql, args);
         try {
-            String sqlStatement = String.format(sql, args);
             getScrollableStatement().executeUpdate(sqlStatement);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String error = "Failed to execute update `%s`.";
+            String errorMessage = String.format(error, sqlStatement);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -59,12 +61,14 @@ public class  StatementExecutor implements Closeable {
      */
     private ResultSetHandler query(String sql, Object... args) {
         ResultSet resultSet = null;
+        String sqlStatement = String.format(sql, args);
         try {
-            String sqlStatement = String.format(sql, args);
             Statement statement = this.getScrollableStatement();
             resultSet = statement.executeQuery(sqlStatement);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String error = "Failed to execute query `%s`.";
+            String errorMessage = String.format(error, sqlStatement);
+            throw new SQLeonError(e, errorMessage);
         }
         return new ResultSetHandler(resultSet);
     }
@@ -94,7 +98,7 @@ public class  StatementExecutor implements Closeable {
         } catch (SQLException e) {
             String errorString = "Failed to execute statement `%s`";
             String errorMessage = String.format(errorString, sql);
-            throw new SQLeonException(e, errorMessage);
+            throw new SQLeonError(e, errorMessage);
         }
     }
 
@@ -107,7 +111,7 @@ public class  StatementExecutor implements Closeable {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
         } catch (SQLException e) {
-            throw new SQLeonException(e, "Failed to create a Statement.");
+            throw new SQLeonError(e, "Failed to create a Statement.");
         }
     }
 
@@ -115,7 +119,7 @@ public class  StatementExecutor implements Closeable {
         try {
             connection.commit();
         } catch (SQLException e) {
-            throw new SQLeonException(e, "Failed to execute commit.");
+            throw new SQLeonError(e, "Failed to execute commit.");
         }
     }
 

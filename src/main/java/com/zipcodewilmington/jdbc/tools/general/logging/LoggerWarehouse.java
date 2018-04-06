@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.logging;
+package com.zipcodewilmington.jdbc.tools.general.logging;
 
 import java.util.HashMap;
 import java.util.Map;

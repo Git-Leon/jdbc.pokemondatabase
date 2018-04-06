@@ -1,6 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.exception.SQLeonException;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
+import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -14,6 +15,13 @@ import java.util.List;
  * Created by leon on 3/13/18.
  */
 public class ConnectionWrapper {
+    enum ConnectionProperty {
+        IS_CLOSED,
+        METADATA,
+        CATALOG,
+        CATALOGS
+    }
+
     private final Connection connection;
 
     public ConnectionWrapper(Connection connection) {
@@ -24,33 +32,36 @@ public class ConnectionWrapper {
         return connection;
     }
 
+    public boolean isClosed() {
+        return getProperty(connection::isClosed, ConnectionProperty.IS_CLOSED);
+    }
+
     public DatabaseMetaData getMetaData() {
-        try {
-            return connection.getMetaData();
-        } catch (SQLException e) {
-            String errorMessage = "Failed to retrieve metadata from the connection.";
-            throw new SQLeonException(e, errorMessage);
-        }
+        return getProperty(connection::getMetaData, ConnectionProperty.METADATA);
     }
 
     public String getCatalog() {
-        try {
-            return connection.getCatalog();
-        } catch (SQLException e) {
-            String errorMessage = "Failed to retrieve catalog from the metadata.";
-            throw new SQLeonException(e, errorMessage);
-        }
+        return getProperty(connection::getCatalog, ConnectionProperty.CATALOG);
     }
 
     public ResultSetHandler getCatalogs() {
-        try {
-            ResultSet rs =  getMetaData().getCatalogs();
+        return getProperty(() -> {
+            ResultSet rs = getMetaData().getCatalogs();
             ResultSetHandler rsh = new ResultSetHandler(rs);
             return rsh;
-        } catch (SQLException e) {
-            String errorMessage = "Failed to retrieve the catalogs from the metadata.";
-            throw new SQLeonException(e, errorMessage);
+        }, ConnectionProperty.CATALOGS);
+    }
+
+    private <E> E getProperty(ExceptionalSupplier<E> getMethod, ConnectionProperty property) {
+        E valueRetrieved = null;
+        try {
+            valueRetrieved = getMethod.get(); // invoke getter
+        } catch (Throwable throwable) {
+            String error = "Failed to get property `%s`";
+            String errorMessage = String.format(error, property.name());
+            throw new SQLeonError(throwable, errorMessage);
         }
+        return valueRetrieved;
     }
 
     public String[] getSchemaNames() {
@@ -59,7 +70,6 @@ public class ConnectionWrapper {
         String[] schemaNames = rsh.getRows(schemaColumn);
         return schemaNames;
     }
-
 
     public Boolean hasDatabase(String name) {
         List<String> schemaNames = Arrays.asList(getSchemaNames());

@@ -1,5 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
+import com.zipcodewilmington.jdbc.tools.collections.MapExtractor;
+import com.zipcodewilmington.jdbc.tools.database.connection.ResultExtractor;
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
 
@@ -93,5 +95,15 @@ public class DatabaseTable {
     @Override
     public String toString() {
         return select("*").toStack().toString();
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    public <T> T find(Long id, ResultExtractor<T> extractor) {
+        String condition = "ID = " + id;
+        ResultSetHandler rsh = where(condition);
+        return extractor.extract(rsh.getResultSet());
     }
 }

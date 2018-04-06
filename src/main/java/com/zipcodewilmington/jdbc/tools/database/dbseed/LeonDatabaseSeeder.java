@@ -16,7 +16,7 @@ public class LeonDatabaseSeeder {
     public void importFilesFromResourcesDirectory() {
         SQLScriptExecutorBuilder builder = new SQLScriptExecutorBuilder(connection);
         String localDirectory = System.getProperty("user.dir");
-        String resourcesDirectory = localDirectory + "/src/main/resources/migrations/";
+        String resourcesDirectory = localDirectory + "/src/main/resources/migrations/uat";
         builder.appendDirectory(resourcesDirectory);
         SQLScriptExecutor scriptExecutor = builder.build();
         scriptExecutor.executeScripts();

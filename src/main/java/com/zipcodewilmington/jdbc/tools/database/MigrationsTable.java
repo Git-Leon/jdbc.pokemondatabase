@@ -37,7 +37,7 @@ public class MigrationsTable {
     }
 
     public void insert(File file) throws IOException {
-        if (!contains(file)) {
+        if (!contains(file) && !file.isDirectory()) {
             String sqlStatement = "INSERT INTO migrations SELECT '" + file.getName() + "'";
             statementExecutor.execute(sqlStatement);
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
