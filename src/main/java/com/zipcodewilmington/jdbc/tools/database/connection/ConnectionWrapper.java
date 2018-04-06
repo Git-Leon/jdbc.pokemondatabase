@@ -53,15 +53,9 @@ public class ConnectionWrapper {
     }
 
     private <E> E getProperty(ExceptionalSupplier<E> getMethod, ConnectionProperty property) {
-        E valueRetrieved = null;
-        try {
-            valueRetrieved = getMethod.get(); // invoke getter
-        } catch (Throwable throwable) {
-            String error = "Failed to get property `%s`";
-            String errorMessage = String.format(error, property.name());
-            throw new SQLeonError(throwable, errorMessage);
-        }
-        return valueRetrieved;
+        String error = "Failed to get property `%s`";
+        String errorMessage = String.format(error, property.name());
+        return ExceptionalSupplier.tryInvoke(getMethod::get, errorMessage);
     }
 
     public String[] getSchemaNames() {

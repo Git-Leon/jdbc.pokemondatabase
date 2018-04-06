@@ -2,6 +2,7 @@ package com.zipcodewilmington.jdbc.tools.database.connection;
 
 import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
 import org.mariadb.jdbc.MySQLDataSource;
 
 import java.sql.Connection;
@@ -59,22 +60,14 @@ public class ConnectionBuilder {
     }
 
     private <E> ConnectionBuilder setProperty(ExceptionalConsumer<E> setMethod, E valueToSetTo, DatabaseProperty property) {
-        try {
-            setMethod.accept(valueToSetTo); // invoke setter with respective value
-        } catch (Throwable throwable) {
-            String error = "Failed to set property `%s` to `%s`";
-            String errorMessage = String.format(error, property.name(), valueToSetTo);
-            throw new SQLeonError(throwable);
-        }
+        String error = "Failed to set property `%s` to `%s`";
+        String errorMessage = String.format(error, property.name(), valueToSetTo);
+        ExceptionalConsumer.tryInvoke(setMethod, valueToSetTo, errorMessage);
         return this;
     }
 
     public Connection build() {
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            String errorMessage = "Failed to build a connection from the configured data source.";
-            throw new SQLeonError(e, errorMessage);
-        }
+        String errorMessage = "Failed to build connection.";
+        return ExceptionalSupplier.tryInvoke(dataSource::getConnection, errorMessage);
     }
 }
