@@ -1,12 +1,11 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+
+import gitleon.utils.functional.ExceptionalSupplier;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 

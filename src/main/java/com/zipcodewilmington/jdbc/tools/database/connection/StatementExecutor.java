@@ -1,19 +1,18 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
-import com.zipcodewilmington.jdbc.tools.general.functional.*;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerWarehouse;
+import gitleon.utils.functional.ExceptionalBiFunction;
+import gitleon.utils.functional.ExceptionalConsumer;
+import gitleon.utils.functional.ExceptionalFunction;
+import gitleon.utils.functional.ExceptionalRunnable;
 
 import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Created by leon on 3/13/18.

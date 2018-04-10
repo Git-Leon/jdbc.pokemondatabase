@@ -2,16 +2,15 @@ package com.zipcodewilmington.jdbc.tools.database.connection;
 
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
-import com.zipcodewilmington.jdbc.tools.general.functional.*;
+import gitleon.utils.functional.ExceptionalFunction;
+import gitleon.utils.functional.ExceptionalRunnable;
+import gitleon.utils.functional.ExceptionalSupplier;
 
 import java.io.Closeable;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by leon on 3/13/18.

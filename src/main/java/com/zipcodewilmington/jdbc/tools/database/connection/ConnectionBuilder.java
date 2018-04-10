@@ -1,13 +1,10 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
+import gitleon.utils.functional.ExceptionalConsumer;
+import gitleon.utils.functional.ExceptionalSupplier;
 import org.mariadb.jdbc.MySQLDataSource;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.function.Consumer;
 
 
 /**

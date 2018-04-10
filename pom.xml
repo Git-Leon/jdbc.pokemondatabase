@@ -8,12 +8,43 @@
     <artifactId>jdbc</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+    <!--Set language level to Java 8 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
+    <!-- Specify the use of git-leon repository -->
+    <repositories>
+        <repository>
+            <id>git-leon-exceptional-functional-interface</id>
+            <url>https://packagecloud.io/git-leon/utils/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+    <!-- Dependency for artifact -->
     <dependencies>
+        <dependency>
+            <groupId>"git-leon"</groupId>
+            <artifactId>"gitleon.utils.functional.exceptionalfunctionalinterfaces"</artifactId>
+            <version>"build1"</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
         <dependency>
