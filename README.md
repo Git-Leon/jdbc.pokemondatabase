@@ -1,6 +1,11 @@
 # JDBC & JPA Demo 
 
-# How do I orient myself in this project?
+## Configuring Environment
+* Ensure you have `MySQL` installed.
+    * This project's current `MySQL` version can be found by viewing its `pom.xml`
+    * Your machine's current `MySQL` version can be found by executing `SELECT VERSION()`
+
+## How do I orient myself in this project?
 * `Database`
     * An enum with each enumeration referencing a respective connection to a database.
     * Provides a mechanism for

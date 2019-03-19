@@ -1,13 +1,11 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+
+import com.mysql.cj.jdbc.MysqlDataSource;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
-import org.mariadb.jdbc.MySQLDataSource;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.function.Consumer;
 
 
 /**
@@ -17,20 +15,21 @@ import java.util.function.Consumer;
 public class ConnectionBuilder {
     enum DatabaseProperty {
         NAME,
-        SERVER_NAME,
-        PORT_NUMBER,
-        USER,
         PASSWORD,
+        PORT_NUMBER,
+        SERVER_NAME,
+        SERVER_TIMEZONE,
+        USER,
         URL;
     }
 
-    private final MySQLDataSource dataSource;
+    private final MysqlDataSource dataSource;
 
     public ConnectionBuilder() {
-        this(new MySQLDataSource());
+        this(new MysqlDataSource());
     }
 
-    public ConnectionBuilder(MySQLDataSource dataSource) {
+    public ConnectionBuilder(MysqlDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -52,6 +51,10 @@ public class ConnectionBuilder {
 
     public ConnectionBuilder setPassword(String password) {
         return setProperty(dataSource::setPassword, password, DatabaseProperty.PASSWORD);
+    }
+
+    public ConnectionBuilder setServerTimezone(String serverTimezone) {
+        return setProperty(dataSource::setServerTimezone, serverTimezone, DatabaseProperty.SERVER_TIMEZONE);
     }
 
 

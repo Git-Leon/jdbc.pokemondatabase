@@ -5,29 +5,32 @@ import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
 import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
-import org.mariadb.jdbc.Driver;
 
 import javax.persistence.*;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 public enum Database {
     POKEMON(new ConnectionBuilder()
-            .setUrl("jdbc:mariadb://localhost/")
+            .setUrl("jdbc:mysql://localhost/")
             .setPort(3306)
             .setDatabaseName("pokemon")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")),
+            .setPassword("")
+            .setServerTimezone("UTC")),
 
 
     UAT(new ConnectionBuilder()
-            .setUrl("jdbc:mariadb://localhost/")
+            .setUrl("jdbc:mysql://localhost/")
             .setPort(3306)
             .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword(""));
+            .setPassword("")
+            .setServerTimezone("UTC"));
 
     static { // Attempt to register JDBC Driver
         registerJDBCDriver();
@@ -48,7 +51,7 @@ public enum Database {
 
     public Connection getConnection() {
         ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
-        if(connectionWrapper.isClosed()) {
+        if (connectionWrapper.isClosed()) {
             return connectionBuilder.build();
         }
         return connection;
@@ -91,22 +94,6 @@ public enum Database {
         logger.enablePrinting();
     }
 
-    // Attempt to register JDBC Driver
-    private static void registerJDBCDriver() {
-        Driver driver = null;
-        try {
-            driver = new Driver();
-            DriverManager.registerDriver(driver);
-        } catch (SQLException e) {
-            try {
-                Class.forName(driver.getClass().getName());
-            } catch (ClassNotFoundException e1) {
-                e.printStackTrace();
-                throw new SQLeonError(e1);
-            }
-        }
-    }
-
     public DatabaseTable getTable(String tableName) {
         return new DatabaseTable(this, tableName);
     }
@@ -114,7 +101,7 @@ public enum Database {
     public <T> void persist(T entity) {
         Class<?> entityClass = entity.getClass();
         boolean isEntity = entityClass.isAnnotationPresent(Entity.class);
-        assert(isEntity);
+        assert (isEntity);
 
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
@@ -126,5 +113,16 @@ public enum Database {
 
     public EntityManager getEntityManager() {
         return entityManager;
+    }
+
+    // Attempt to register JDBC Driver
+    private static void registerJDBCDriver() {
+        Driver driver = null;
+        try {
+            driver = (Driver) Class.forName(Driver.class.getName()).newInstance();
+            DriverManager.registerDriver(driver);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+            throw new SQLeonError(e1);
+        }
     }
 }
