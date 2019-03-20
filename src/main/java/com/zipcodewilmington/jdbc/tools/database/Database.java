@@ -1,5 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
+import com.mysql.jdbc.Driver;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
@@ -8,7 +9,6 @@ import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 
 import javax.persistence.*;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -19,9 +19,8 @@ public enum Database {
             .setDatabaseName("pokemon")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")
+            .setPassword("newpass")
             .setServerTimezone("UTC")),
-
 
     UAT(new ConnectionBuilder()
             .setUrl("jdbc:mysql://localhost/")
@@ -29,7 +28,7 @@ public enum Database {
             .setDatabaseName("uat")
             .setServerName("127.0.0.1")
             .setUser("root")
-            .setPassword("")
+            .setPassword("newpass")
             .setServerTimezone("UTC"));
 
     static { // Attempt to register JDBC Driver

@@ -17,6 +17,8 @@
 
             <property name="javax.persistence.jdbc.user"
                       value="root" />
+            <property name="javax.persistence.jdbc.password"
+                      value="newpass" />
 
             <property name="eclipselink.ddl-generation"
                       value="drop-and-create-tables" />
@@ -40,6 +42,8 @@
 
             <property name="javax.persistence.jdbc.user"
                       value="root" />
+            <property name="javax.persistence.jdbc.password"
+                      value="newpass" />
 
             <property name="eclipselink.ddl-generation"
                       value="drop-and-create-tables" />

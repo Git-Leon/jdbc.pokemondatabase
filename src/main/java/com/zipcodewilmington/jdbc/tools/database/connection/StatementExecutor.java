@@ -1,7 +1,9 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
-import com.zipcodewilmington.jdbc.tools.general.functional.*;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalBiFunction;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalFunction;
+import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalRunnable;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerWarehouse;
 
@@ -12,8 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Created by leon on 3/13/18.
@@ -27,6 +27,11 @@ public class StatementExecutor implements Closeable {
         String loggerName = getClass().getSimpleName() + connection.toString();
         this.logger = LoggerWarehouse.getLogger(loggerName);
         this.connection = connection;
+        try {
+            this.connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 
     /**
