@@ -1,7 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
 
