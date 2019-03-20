@@ -9,10 +9,10 @@ public class ConnectionBuilderTest {
         new ConnectionBuilder()
                 .setUrl("jdbc:mysql://localhost/")
                 .setDatabaseName("uat")
-                .setPort(3037)
+                .setPort(3036)
                 .setServerName("127.0.0.1")
                 .setUser("root")
-                .setPassword("")
+                .setPassword("newpass")
                 .build();
     }
 

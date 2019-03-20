@@ -4,7 +4,6 @@ import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.tree.RowMapper;
 import java.io.IOException;
 
 public class DatabaseTest {

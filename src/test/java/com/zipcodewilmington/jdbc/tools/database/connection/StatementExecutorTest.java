@@ -3,6 +3,7 @@ package com.zipcodewilmington.jdbc.tools.database.connection;
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +33,7 @@ public class StatementExecutorTest {
 
         // then
         DatabaseTable personTable = testingDatabase.getTable("person");
+        Assert.assertNotNull(personTable);
     }
 
 
@@ -39,12 +41,17 @@ public class StatementExecutorTest {
     public void executeInsert() {
         // given
         executeCreate();
+        String expected = "{firstName=leon, lastName=hunter, personID=0}";
 
         // when
         executor.execute("INSERT INTO uat.person(personID, firstName, lastName) VALUES (0, 'leon', 'hunter');");
 
         // then
         DatabaseTable personTable = testingDatabase.getTable("person");
+        ResultSetHandler rs = personTable.where("personId = 'leon'");
+        String actual = rs.toStack().pop().toString();
+
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -58,7 +65,6 @@ public class StatementExecutorTest {
         // then
         MapCollection<String, String> mapCollection =rsh.toMapCollection();
         int numberOfRows = mapCollection.size();
-        boolean hasRows = numberOfRows > 0;
-        assert(hasRows);
+        Assert.assertTrue(numberOfRows > 0);
     }
 }

@@ -37,7 +37,7 @@ public enum Database {
 
     private final EntityManager entityManager;
     private final ConnectionBuilder connectionBuilder;
-    private final Connection connection;
+    private Connection connection;
 
     Database(ConnectionBuilder connectionBuilder) {
         Connection connection = connectionBuilder.build();
@@ -51,7 +51,7 @@ public enum Database {
     public Connection getConnection() {
         ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
         if (connectionWrapper.isClosed()) {
-            return connectionBuilder.build();
+            this.connection = connectionBuilder.build();
         }
         return connection;
     }
