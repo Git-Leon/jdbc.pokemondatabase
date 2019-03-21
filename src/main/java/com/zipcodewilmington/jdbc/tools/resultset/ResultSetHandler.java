@@ -1,7 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.resultset;
 
-import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
-import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
+import com.github.git_leon.collectionutils.MapCollection;
+import com.github.git_leon.collectionutils.ProperStack;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalFunction;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalRunnable;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalSupplier;

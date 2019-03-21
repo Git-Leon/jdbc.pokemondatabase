@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.executor;
 
-import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
+import com.github.git_leon.collectionutils.ProperStack;
 import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
 
 import java.io.*;

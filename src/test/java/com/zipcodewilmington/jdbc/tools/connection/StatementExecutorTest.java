@@ -1,6 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.connection;
 
-import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
+import com.github.git_leon.collectionutils.MapCollection;
 import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
 import com.zipcodewilmington.jdbc.tools.executor.StatementExecutor;
