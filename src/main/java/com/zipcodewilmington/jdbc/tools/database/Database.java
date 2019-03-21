@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public enum Database {
+public enum Database implements DatabaseInterface {
     POKEMON(new ConnectionBuilder()
             .setUrl("jdbc:mysql://localhost/")
             .setPort(3306)
@@ -48,6 +48,7 @@ public enum Database {
         this.connectionBuilder = connectionBuilder;
     }
 
+    @Override
     public synchronized Connection getConnection() {
         ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
         if (connectionWrapper.isClosed()) {
@@ -56,47 +57,57 @@ public enum Database {
         return connection;
     }
 
+    @Override
     public StatementExecutor getStatementExecutor() {
         return new StatementExecutor(getConnection());
     }
 
+    @Override
     public ConnectionWrapper getConnectionWrapper() {
         return new ConnectionWrapper(getConnection());
     }
 
+    @Override
     public boolean isNull() {
         return getConnectionWrapper().hasDatabase(name());
     }
 
+    @Override
     public void drop() {
         String sqlStatement = "DROP DATABASE IF EXISTS %s;";
         getStatementExecutor().execute(sqlStatement, name());
     }
 
+    @Override
     public void create() {
         String sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS %s;";
         getStatementExecutor().execute(sqlCreateDatabase, name());
     }
 
+    @Override
     public void use() {
         String sqlStatement = "USE %s;";
         getStatementExecutor().execute(sqlStatement, name());
     }
 
+    @Override
     public void disableLogging() {
         LoggerHandler logger = getStatementExecutor().getLogger();
         logger.disablePrinting();
     }
 
+    @Override
     public void enableLogging() {
         LoggerHandler logger = getStatementExecutor().getLogger();
         logger.enablePrinting();
     }
 
+    @Override
     public DatabaseTable getTable(String tableName) {
         return new DatabaseTable(this, tableName);
     }
 
+    @Override
     public <T> void persist(T entity) {
         Class<?> entityClass = entity.getClass();
         boolean isEntity = entityClass.isAnnotationPresent(Entity.class);
@@ -110,6 +121,7 @@ public enum Database {
         entityTransaction.commit();
     }
 
+    @Override
     public EntityManager getEntityManager() {
         return entityManager;
     }

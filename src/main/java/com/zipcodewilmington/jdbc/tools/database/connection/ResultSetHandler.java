@@ -1,7 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database.connection;
 
-import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
-import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
+import com.github.git_leon.collectionutils.MapCollection;
+import com.github.git_leon.collectionutils.ProperStack;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalFunction;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalRunnable;
 import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;

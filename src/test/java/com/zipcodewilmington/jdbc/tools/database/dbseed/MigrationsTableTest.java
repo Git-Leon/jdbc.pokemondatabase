@@ -2,12 +2,13 @@ package com.zipcodewilmington.jdbc.tools.database.dbseed;
 
 import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
+import com.zipcodewilmington.jdbc.tools.database.MigrationsTable;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Connection;
 
-public class WilhemDatabaseSeederTest {
+public class MigrationsTableTest {
     @Before
     public void setup() {
         Database.POKEMON.create();
@@ -19,10 +20,10 @@ public class WilhemDatabaseSeederTest {
     public void test() {
         // Given
         Connection connection = Database.POKEMON.getConnection();
-        WilhemDatabaseSeeder seeder = new WilhemDatabaseSeeder(connection);
+        MigrationsTable migrationsTable = new MigrationsTable(connection);
 
         // When
-        seeder.run();
+        migrationsTable.importFilesFromResources();
 
         // Then
         DatabaseTable pokemons = Database.POKEMON.getTable("pokemons");

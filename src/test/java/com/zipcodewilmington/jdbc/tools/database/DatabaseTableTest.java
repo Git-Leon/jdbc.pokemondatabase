@@ -2,7 +2,6 @@ package com.zipcodewilmington.jdbc.tools.database;
 
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.tools.database.dbseed.LeonDatabaseSeeder;
 import com.zipcodewilmington.jdbc.tools.testutils.SeedRefresher;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,8 +17,8 @@ public class DatabaseTableTest {
     public void setup() {
         SeedRefresher.refresh();
         this.database = Database.UAT;
-        LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(database.getConnection());
-        seeder.importFilesFromResourcesDirectory();
+        MigrationsTable seeder = new MigrationsTable(database.getConnection());
+        seeder.importFilesFromResources();
         createPokemonTable(database.name());
         this.table = database.getTable("pokemons");
     }
