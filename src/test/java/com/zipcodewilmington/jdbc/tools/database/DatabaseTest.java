@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class DatabaseTest {
     private final Database database;
 
@@ -20,13 +18,11 @@ public class DatabaseTest {
 
     @Before
     public void setup() {
-        try { // import sql-insert-statements
-            MigrationsTable table = new MigrationsTable(database.getConnection());
-            String localProjectRootDirectory = System.getProperty("user.dir");
-            String localResourceDirectory = "/src/main/resources/migrations/uat/";
-            table.importFilesFromPath(localProjectRootDirectory + localResourceDirectory);
-        } catch (IOException e) {
-        }
+        // import sql-insert-statements
+        MigrationsTable table = new MigrationsTable(database.getConnection());
+        String localProjectRootDirectory = System.getProperty("user.dir");
+        String localResourceDirectory = "/src/main/resources/migrations/uat/";
+        table.importFilesFromPath(localProjectRootDirectory + localResourceDirectory);
     }
 
     @Test

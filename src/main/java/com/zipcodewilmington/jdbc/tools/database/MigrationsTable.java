@@ -4,14 +4,9 @@ import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * Ensures schemas are initialized only once
@@ -36,7 +31,7 @@ public class MigrationsTable {
         return firstColumnValue.equals("1");
     }
 
-    public void insert(File file) throws IOException {
+    public void insert(File file) {
         if (!contains(file) && !file.isDirectory()) {
             String sqlStatement = "INSERT INTO migrations SELECT '" + file.getName() + "'";
             statementExecutor.execute(sqlStatement);
@@ -44,12 +39,14 @@ public class MigrationsTable {
                 for (String line; (line = br.readLine()) != null; ) {
                     statementExecutor.execute(line);
                 }
+            } catch (IOException e) {
+                throw new IOError(e);
             }
         }
         statementExecutor.commit();
     }
 
-    public void importFilesFromPath(String migrationsPath) throws IOException {
+    public void importFilesFromPath(String migrationsPath) {
         File directory = new File(migrationsPath);
         assert (directory.isDirectory());
         File[] files = directory.listFiles();
@@ -59,7 +56,7 @@ public class MigrationsTable {
         statementExecutor.commit();
     }
 
-    public void importFilesFromResources() throws IOException {
+    public void importFilesFromResources() {
         String localProjectRootDirectory = System.getProperty("user.dir");
         String localResourceDirectory = "/src/main/resources/migrations/";
         importFilesFromPath(localProjectRootDirectory + localResourceDirectory);
