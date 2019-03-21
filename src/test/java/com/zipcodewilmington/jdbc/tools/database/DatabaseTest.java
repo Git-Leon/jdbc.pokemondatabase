@@ -1,7 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
-import com.zipcodewilmington.jdbc.tools.connection.ResultSetHandler;
-import com.zipcodewilmington.jdbc.tools.dbseed.MigrationsTable;
+import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
+import com.zipcodewilmington.jdbc.tools.executor.MigrationsTable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

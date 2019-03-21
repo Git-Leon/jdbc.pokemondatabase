@@ -5,7 +5,7 @@ import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.MapExtractor;
 import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
-import com.zipcodewilmington.jdbc.tools.connection.ResultSetHandler;
+import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,8 @@ package com.zipcodewilmington.jdbc.tools.connection;
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
+import com.zipcodewilmington.jdbc.tools.executor.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -4,7 +4,7 @@ package com.zipcodewilmington.jdbc.tools.database;
 import com.mysql.jdbc.Driver;
 import com.zipcodewilmington.jdbc.tools.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.connection.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.executor.StatementExecutor;
 import com.zipcodewilmington.jdbc.tools.exception.SQLError;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 

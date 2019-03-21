@@ -1,7 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.dbseed;
 
-import com.zipcodewilmington.jdbc.tools.io.SQLScriptExecutor;
-import com.zipcodewilmington.jdbc.tools.io.SQLScriptExecutorBuilder;
+import com.zipcodewilmington.jdbc.tools.executor.SQLScriptExecutor;
+import com.zipcodewilmington.jdbc.tools.executor.SQLScriptExecutorBuilder;
 
 import java.sql.Connection;
 

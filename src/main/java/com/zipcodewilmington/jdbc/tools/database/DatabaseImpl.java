@@ -2,7 +2,7 @@ package com.zipcodewilmington.jdbc.tools.database;
 
 import com.zipcodewilmington.jdbc.tools.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.connection.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.executor.StatementExecutor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

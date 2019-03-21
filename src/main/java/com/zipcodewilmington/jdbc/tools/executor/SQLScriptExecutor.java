@@ -1,6 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.io;
-
-import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
+package com.zipcodewilmington.jdbc.tools.executor;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,5 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.connection;
 
+import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalSupplier;
 
 import java.sql.Connection;

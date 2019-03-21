@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.connection;
+package com.zipcodewilmington.jdbc.tools.resultset;
 
 import java.sql.ResultSet; /**
  * @author leon on 3/24/18.

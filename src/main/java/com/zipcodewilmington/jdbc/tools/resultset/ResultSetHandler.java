@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.connection;
+package com.zipcodewilmington.jdbc.tools.resultset;
 
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
