@@ -28,14 +28,14 @@ public class DatabaseTableTest {
     @Test
     public void limitTest() {
         // Given
-        Integer expectedNumberOfRows = 5;
+        Integer expectedNumberOfRows = 500;
 
         // When
         ResultSetHandler results = table.limit(expectedNumberOfRows);
         Integer actualNumberOfRows = results.toStack().size();
 
         // Then
-        Assert.assertTrue(actualNumberOfRows <= expectedNumberOfRows);
+        Assert.assertEquals(actualNumberOfRows, expectedNumberOfRows);
     }
 
     @Test
@@ -68,6 +68,7 @@ public class DatabaseTableTest {
         Map<String, String> firstRow = results.toStack().pop();
         int actualNumberOfFields = firstRow.size();
         System.out.println(firstRow);
+        System.out.println(actualNumberOfFields);
     }
 
     @Test

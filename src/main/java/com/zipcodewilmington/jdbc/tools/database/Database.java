@@ -48,7 +48,7 @@ public enum Database {
         this.connectionBuilder = connectionBuilder;
     }
 
-    public Connection getConnection() {
+    public synchronized Connection getConnection() {
         ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
         if (connectionWrapper.isClosed()) {
             this.connection = connectionBuilder.build();

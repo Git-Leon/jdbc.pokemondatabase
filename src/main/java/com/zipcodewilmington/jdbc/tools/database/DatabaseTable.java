@@ -98,6 +98,8 @@ public class DatabaseTable {
 
     /**
      * @param id
+     * @param extractor
+     * @param <T>
      * @return
      */
     public <T> T find(Long id, ResultExtractor<T> extractor) {
