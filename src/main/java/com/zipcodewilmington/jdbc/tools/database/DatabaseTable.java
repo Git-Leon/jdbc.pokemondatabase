@@ -15,7 +15,7 @@ public class DatabaseTable {
     private final String tableName;
     private final StatementExecutor executor;
 
-    public DatabaseTable(Database database, String tableName) {
+    public DatabaseTable(DatabaseInterface database, String tableName) {
         this.executor = database.getStatementExecutor();
         this.tableName = tableName;
     }
