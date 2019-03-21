@@ -19,10 +19,7 @@ public class DatabaseTest {
     @Before
     public void setup() {
         // import sql-insert-statements
-        MigrationsTable table = new MigrationsTable(database.getConnection());
-        String localProjectRootDirectory = System.getProperty("user.dir");
-        String localResourceDirectory = "/src/main/resources/migrations/uat/";
-        table.importFilesFromPath(localProjectRootDirectory + localResourceDirectory);
+        new MigrationsTable(database.getConnection()).importFilesFromResources();
     }
 
     @Test
