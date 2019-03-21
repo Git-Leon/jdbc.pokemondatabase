@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.general.logging;
+package com.zipcodewilmington.jdbc.tools.logging;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

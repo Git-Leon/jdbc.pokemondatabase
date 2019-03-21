@@ -6,7 +6,7 @@ import com.zipcodewilmington.jdbc.tools.connection.ConnectionBuilder;
 import com.zipcodewilmington.jdbc.tools.connection.ConnectionWrapper;
 import com.zipcodewilmington.jdbc.tools.executor.StatementExecutor;
 import com.zipcodewilmington.jdbc.tools.exception.SQLError;
-import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;

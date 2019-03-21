@@ -1,8 +1,8 @@
 package com.zipcodewilmington.jdbc.tools.executor;
 
 import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
-import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
-import com.zipcodewilmington.jdbc.tools.general.logging.LoggerWarehouse;
+import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
+import com.zipcodewilmington.jdbc.tools.logging.LoggerWarehouse;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalBiFunction;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalConsumer;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalFunction;
