@@ -22,7 +22,6 @@ public class DatabaseTableTest {
         seeder.importFilesFromResourcesDirectory();
         createPokemonTable(database.name());
         this.table = database.getTable("pokemons");
-
     }
 
     @Test
