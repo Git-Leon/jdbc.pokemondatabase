@@ -12,8 +12,7 @@ public class WilhemDatabaseSeeder {
         this.connection = connection;
     }
 
-    public boolean run() {
+    public void run() {
         new MigrationsTable(connection).importFilesFromResources();
-        return true;
     }
 }
