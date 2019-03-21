@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.database.connection;
+package com.zipcodewilmington.jdbc.tools.connection;
 
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.database.Database;

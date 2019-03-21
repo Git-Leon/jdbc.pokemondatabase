@@ -1,11 +1,11 @@
-package com.zipcodewilmington.jdbc.tools.database.connection;
+package com.zipcodewilmington.jdbc.tools.connection;
 
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalBiFunction;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalFunction;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalRunnable;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerWarehouse;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalBiFunction;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalConsumer;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalFunction;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalRunnable;
 
 import java.io.Closeable;
 import java.sql.Connection;

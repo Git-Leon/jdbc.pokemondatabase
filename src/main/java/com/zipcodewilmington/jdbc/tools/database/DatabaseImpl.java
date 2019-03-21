@@ -1,8 +1,8 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
-import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
-import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.connection.ConnectionBuilder;
+import com.zipcodewilmington.jdbc.tools.connection.ConnectionWrapper;
+import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

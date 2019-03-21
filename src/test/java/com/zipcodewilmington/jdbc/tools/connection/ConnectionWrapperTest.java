@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.database.connection;
+package com.zipcodewilmington.jdbc.tools.connection;
 
 import org.junit.Before;
 

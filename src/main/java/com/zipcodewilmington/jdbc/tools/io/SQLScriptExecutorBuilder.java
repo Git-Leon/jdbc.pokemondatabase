@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.database.io;
+package com.zipcodewilmington.jdbc.tools.io;
 
 import java.io.*;
 import java.sql.Connection;

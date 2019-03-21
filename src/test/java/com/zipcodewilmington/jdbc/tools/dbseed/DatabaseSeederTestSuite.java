@@ -1,4 +1,4 @@
-package com.zipcodewilmington.jdbc.tools.database.dbseed;
+package com.zipcodewilmington.jdbc.tools.dbseed;
 
 
 import org.junit.runner.RunWith;

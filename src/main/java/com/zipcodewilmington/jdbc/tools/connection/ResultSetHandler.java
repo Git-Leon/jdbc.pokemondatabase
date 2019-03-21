@@ -1,10 +1,10 @@
-package com.zipcodewilmington.jdbc.tools.database.connection;
+package com.zipcodewilmington.jdbc.tools.connection;
 
 import com.zipcodewilmington.jdbc.tools.collections.MapCollection;
 import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalFunction;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalRunnable;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalFunction;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalRunnable;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalSupplier;
 
 import java.io.Closeable;
 import java.sql.ResultSet;

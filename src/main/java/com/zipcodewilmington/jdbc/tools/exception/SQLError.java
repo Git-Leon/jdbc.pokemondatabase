@@ -1,14 +1,14 @@
-package com.zipcodewilmington.jdbc.tools.general.exception;
+package com.zipcodewilmington.jdbc.tools.exception;
 
-public class SQLeonError extends Error {
+public class SQLError extends Error {
     private final String errorMessage;
 
-    public SQLeonError(Throwable throwable, String errorMessage) {
+    public SQLError(Throwable throwable, String errorMessage) {
         super(throwable);
         this.errorMessage = errorMessage + "\n\n" + throwable.getMessage();
     }
 
-    public SQLeonError(Throwable throwable) {
+    public SQLError(Throwable throwable) {
         this(throwable, "");
     }
 

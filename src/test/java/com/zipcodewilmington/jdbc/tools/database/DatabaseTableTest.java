@@ -1,8 +1,8 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
-import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
-import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.tools.database.dbseed.LeonDatabaseSeeder;
+import com.zipcodewilmington.jdbc.tools.connection.ResultSetHandler;
+import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.dbseed.LeonDatabaseSeeder;
 import com.zipcodewilmington.jdbc.tools.testutils.SeedRefresher;
 import org.junit.Assert;
 import org.junit.Before;

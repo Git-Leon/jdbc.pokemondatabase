@@ -1,8 +1,8 @@
-package com.zipcodewilmington.jdbc.tools.database;
+package com.zipcodewilmington.jdbc.tools.dbseed;
 
 import com.zipcodewilmington.jdbc.tools.collections.ProperStack;
-import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
-import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.connection.ResultSetHandler;
+import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
 
 import java.io.*;
 import java.sql.Connection;

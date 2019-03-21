@@ -1,7 +1,5 @@
-package com.zipcodewilmington.jdbc.tools.database.dbseed;
+package com.zipcodewilmington.jdbc.tools.dbseed;
 
-
-import com.zipcodewilmington.jdbc.tools.database.MigrationsTable;
 
 import java.sql.Connection;
 

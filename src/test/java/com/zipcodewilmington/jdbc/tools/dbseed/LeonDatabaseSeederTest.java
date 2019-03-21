@@ -1,8 +1,8 @@
-package com.zipcodewilmington.jdbc.tools.database.dbseed;
+package com.zipcodewilmington.jdbc.tools.dbseed;
 
 import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
-import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
+import com.zipcodewilmington.jdbc.tools.connection.ResultSetHandler;
 import org.junit.Before;
 import org.junit.Test;
 

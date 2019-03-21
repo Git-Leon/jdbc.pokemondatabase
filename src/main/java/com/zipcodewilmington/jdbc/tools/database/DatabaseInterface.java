@@ -2,10 +2,10 @@ package com.zipcodewilmington.jdbc.tools.database;
 
 
 import com.mysql.jdbc.Driver;
-import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionBuilder;
-import com.zipcodewilmington.jdbc.tools.database.connection.ConnectionWrapper;
-import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
-import com.zipcodewilmington.jdbc.tools.general.exception.SQLeonError;
+import com.zipcodewilmington.jdbc.tools.connection.ConnectionBuilder;
+import com.zipcodewilmington.jdbc.tools.connection.ConnectionWrapper;
+import com.zipcodewilmington.jdbc.tools.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.exception.SQLError;
 import com.zipcodewilmington.jdbc.tools.general.logging.LoggerHandler;
 
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public interface DatabaseInterface {
             driver = (Driver) Class.forName(Driver.class.getName()).newInstance();
             DriverManager.registerDriver(driver);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
-            throw new SQLeonError(e1);
+            throw new SQLError(e1);
         }
     }
 

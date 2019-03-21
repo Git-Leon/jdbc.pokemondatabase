@@ -1,9 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.collections;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 /**
@@ -18,7 +15,7 @@ public class ProperStack<E> implements Iterable<E> {
     }
 
     public ProperStack() {
-        this(null);
+        this(new ArrayList<>());
     }
 
     public void push(E... e) {

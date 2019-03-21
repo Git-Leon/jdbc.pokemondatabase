@@ -1,9 +1,9 @@
-package com.zipcodewilmington.jdbc.tools.database.connection;
+package com.zipcodewilmington.jdbc.tools.connection;
 
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalConsumer;
-import com.zipcodewilmington.jdbc.tools.general.functional.ExceptionalSupplier;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalConsumer;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalSupplier;
 
 import java.sql.Connection;
 
