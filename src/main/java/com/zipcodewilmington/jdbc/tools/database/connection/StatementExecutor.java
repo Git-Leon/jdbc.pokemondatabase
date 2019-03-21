@@ -68,11 +68,12 @@ public class StatementExecutor implements Closeable {
      * @return wrapper of ResultSet
      */
     private ResultSetHandler query(String sql, Object... args) {
-        String sqlStatement = String.format(sql, args);
         String error = "Failed to execute query `%s`.";
+        String sqlStatement = String.format(sql, args);
         String errorMessage = String.format(error, sqlStatement);
         ExceptionalFunction<String, ResultSet> method = getScrollableStatement()::executeQuery;
         ResultSet rs = ExceptionalFunction.tryInvoke(method, sqlStatement, errorMessage);
+        logger.info("Executed query `%s`", sqlStatement);
         return new ResultSetHandler(rs);
     }
 
@@ -94,9 +95,9 @@ public class StatementExecutor implements Closeable {
      * @param args optional string formatting arguments
      */
     public void execute(String sql, Object... args) {
+        String error = "Failed to execute statement `%s`";
         String sqlStatement = String.format(sql, args);
-        String errorString = "Failed to execute statement `%s`";
-        String errorMessage = String.format(errorString, sql);
+        String errorMessage = String.format(error, sql);
         ExceptionalConsumer<String> method = getScrollableStatement()::execute;
         ExceptionalConsumer.tryInvoke(method, sqlStatement, errorMessage);
         logger.info("Executed statement `%s`", sqlStatement);

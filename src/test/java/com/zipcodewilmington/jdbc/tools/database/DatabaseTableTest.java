@@ -2,12 +2,12 @@ package com.zipcodewilmington.jdbc.tools.database;
 
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;
+import com.zipcodewilmington.jdbc.tools.database.dbseed.LeonDatabaseSeeder;
 import com.zipcodewilmington.jdbc.tools.testutils.SeedRefresher;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.Map;
 
 public class DatabaseTableTest {
@@ -18,8 +18,11 @@ public class DatabaseTableTest {
     public void setup() {
         SeedRefresher.refresh();
         this.database = Database.UAT;
-        createPokemonTable(Database.UAT.name());
+        LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(database.getConnection());
+        seeder.importFilesFromResourcesDirectory();
+        createPokemonTable(database.name());
         this.table = database.getTable("pokemons");
+
     }
 
     @Test

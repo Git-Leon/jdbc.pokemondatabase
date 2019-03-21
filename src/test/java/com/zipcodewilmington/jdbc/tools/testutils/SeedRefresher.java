@@ -1,9 +1,6 @@
 package com.zipcodewilmington.jdbc.tools.testutils;
 
 import com.zipcodewilmington.jdbc.tools.database.Database;
-import com.zipcodewilmington.jdbc.tools.database.dbseed.WilhemDatabaseSeeder;
-
-import java.sql.Connection;
 
 public class SeedRefresher {
     @Deprecated

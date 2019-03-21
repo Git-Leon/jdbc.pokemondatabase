@@ -1,6 +1,5 @@
 package com.zipcodewilmington.jdbc.tools.database;
 
-import com.zipcodewilmington.jdbc.tools.collections.MapExtractor;
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultExtractor;
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 import com.zipcodewilmington.jdbc.tools.database.connection.StatementExecutor;

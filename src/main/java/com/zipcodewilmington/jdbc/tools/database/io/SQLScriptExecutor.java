@@ -36,7 +36,7 @@ public class SQLScriptExecutor {
      */
     public void executeScripts() {
         for (InputStream in : scriptsToBeExecuted) {
-            execute(connection, in);
+            execute(in);
         }
     }
 
@@ -52,14 +52,14 @@ public class SQLScriptExecutor {
                 String scriptName = script.getName();
                 scriptsToBeExecuted[i] = new FileInputStream(scriptName);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                throw new Error(e);
             }
         }
         return inputStreams;
     }
 
 
-    public void execute(Connection connection, InputStream in) {
+    public void execute(InputStream in) {
         StatementExecutor executor = new StatementExecutor(connection);
 
         Scanner s = new Scanner(in);
