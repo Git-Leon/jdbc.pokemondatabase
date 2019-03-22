@@ -105,6 +105,6 @@ public class DatabaseTable {
     public <T> T find(Long id, ResultExtractor<T> extractor) {
         String condition = "ID = " + id;
         ResultSetHandler rsh = where(condition);
-        return extractor.extract(rsh.getResultSet());
+        return extractor.extract(rsh.getResultSet()).get(0);
     }
 }

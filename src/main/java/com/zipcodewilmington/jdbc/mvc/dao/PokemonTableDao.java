@@ -7,6 +7,7 @@ import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
 import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,23 +24,21 @@ public class PokemonTableDao {
     }
 
     public List<Pokemon> getAll() {
-        ResultSetHandler rsh = databaseTable.all();
-        return get(rsh);
+        return get(databaseTable.all().getResultSet());
     }
 
     public List<Pokemon> getFirst(int limit) {
-        ResultSetHandler rsh = databaseTable.limit(limit);
-        return get(rsh);
+        return get(databaseTable.limit(limit).getResultSet());
     }
 
     public Pokemon findByid(long id) {
         ResultSetHandler rsh = databaseTable.where("ID = " + id);
-        List<Pokemon> pokemons = get(rsh);
+        List<Pokemon> pokemons = get(rsh.getResultSet());
         return pokemons.get(0);
     }
 
-    public List<Pokemon> get(ResultSetHandler rsh) {
-        MapCollection<String, String> mapCollection = rsh.toMapCollection();
+    public List<Pokemon> get(ResultSet rs) {
+        MapCollection<String, String> mapCollection = new ResultSetHandler(rs).toMapCollection();
         List<Pokemon> list = new ArrayList<>(mapCollection.size());
 
         for (Map<String, String> row : mapCollection) {

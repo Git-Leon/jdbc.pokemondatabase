@@ -6,14 +6,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 
-abstract public class ServiceImpl
+abstract public class Service
         <EntityType, IdType extends Serializable>
         implements ServiceInterface<EntityType, IdType> {
     private EntityManager entityManager;
     private EntityTransaction entityTransaction;
     private DatabaseInterface database;
 
-    public ServiceImpl(DatabaseInterface database) {
+    public Service(DatabaseInterface database) {
         this.database = database;
         this.entityManager = database.getEntityManager();
         this.entityTransaction = entityManager.getTransaction();
