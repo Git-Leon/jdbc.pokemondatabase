@@ -27,19 +27,4 @@ public class PokemonService extends Service<Pokemon, Long> {
         persistedPokemon.setSecondaryType(newData.getSecondaryType());
         return findById(id);
     }
-
-    @Override
-    public void remove(Long id) {
-        remove(findById(id));
-    }
-
-    @Override
-    public void remove(Pokemon pokemon) {
-        if (pokemon != null) {
-            pokemon = getEntityManager().merge(pokemon);
-            getEntityTransaction().begin();
-            getEntityManager().remove(pokemon);
-            getEntityTransaction().commit();
-        }
-    }
 }
