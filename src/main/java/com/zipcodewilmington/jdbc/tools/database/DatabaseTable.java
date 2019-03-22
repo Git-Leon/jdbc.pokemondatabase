@@ -38,7 +38,7 @@ public class DatabaseTable {
     }
 
     /**
-     * executes a `SELECT * FROM $this.tableName`
+     * executes a `SELECT {Columns} FROM $this.tableName WHERE {condition}`
      * @param fieldNames names of fields to select from Table
      * @param condition string representation of the clause of a `WHERE` statement
      * @return result set handler populated with respective results
@@ -48,7 +48,7 @@ public class DatabaseTable {
     }
 
     /**
-     * executes a `SELECT {fieldNames} FROM $this.tableName LIMIT {numberOfRows}`
+     * executes a `SELECT {Columns} FROM $this.tableName LIMIT {numberOfRows}`
      * @param fieldNames columns to select
      * @param numberOfRows number of rows to be limit this query result by
      * @return result set handler populated with respective results

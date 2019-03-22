@@ -15,5 +15,6 @@ public class ResultSetHandlerTest {
     @Test
     public void test() {
         ResultSetHandler rsh = Database.UAT.getTable("person").all();
+        System.out.println(rsh.toStack());
     }
 }

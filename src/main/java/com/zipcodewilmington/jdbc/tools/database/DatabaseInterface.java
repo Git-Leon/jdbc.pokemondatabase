@@ -11,18 +11,17 @@ import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.lang.annotation.IncompleteAnnotationException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public interface DatabaseInterface {
-    public static void registerJDBCDriver() {
+    static void registerJDBCDriver() {
         // Attempt to register JDBC Driver
-        Driver driver = null;
         try {
-            driver = (Driver) Class.forName(Driver.class.getName()).newInstance();
-            DriverManager.registerDriver(driver);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e1) {
+            DriverManager.registerDriver(Driver.class.newInstance());
+        } catch (InstantiationException | IllegalAccessException | SQLException e1) {
             throw new SQLError(e1);
         }
     }
@@ -64,8 +63,9 @@ public interface DatabaseInterface {
 
     default <T> void persist(T entity) {
         Class<?> entityClass = entity.getClass();
-        boolean isEntity = entityClass.isAnnotationPresent(Entity.class);
-        assert (isEntity);
+        if(!entityClass.isAnnotationPresent(Entity.class)) {
+            throw new IncompleteAnnotationException(Entity.class, entityClass.getName());
+        }
 
         EntityTransaction entityTransaction = getEntityManager().getTransaction();
         entityTransaction.begin();

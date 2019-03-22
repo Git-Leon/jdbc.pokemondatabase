@@ -2,61 +2,47 @@ package com.zipcodewilmington.jdbc.mvc.service;
 
 import com.zipcodewilmington.jdbc.mvc.entity.Pokemon;
 import com.zipcodewilmington.jdbc.tools.database.Database;
+import com.zipcodewilmington.jdbc.tools.database.DatabaseInterface;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.function.Supplier;
 
 /**
  * @author leon on 3/24/18.
  */
-public class PokemonService {
-    private EntityManager entityManager = Database.POKEMON.getEntityManager();
-    private EntityTransaction entityTransaction = entityManager.getTransaction();
-
-
-    public Pokemon create(Long id, String name, Integer primaryType, Integer secondaryType) {
-        Pokemon pokemon = new Pokemon();
-        pokemon.setId(id);
-        pokemon.setName(name);
-        pokemon.setPrimaryType(primaryType);
-        pokemon.setSecondaryType(secondaryType);
-        return create(pokemon);
+public class PokemonService extends ServiceImpl<Pokemon, Long> {
+    public PokemonService() {
+        super(Database.POKEMON);
     }
 
-    public Pokemon create(Pokemon pokemon) {
-        Database.POKEMON.persist(pokemon);
-        return pokemon;
-    }
-
+    @Override
     public Pokemon findById(Long id) {
-        return entityManager.find(Pokemon.class, id);
+        return super.findById(Pokemon.class, id);
     }
 
-    public void update(long id, Pokemon newData) {
-        String newName = newData.getName();
-        Integer newPrimaryType = newData.getPrimaryType();
-        Integer newSecondaryType = newData.getSecondaryType();
-        update(id, newName, newPrimaryType, newSecondaryType);
-    }
-
-
-    public void update(long id, String newName, Integer newPrimaryType, Integer newSecondaryType) {
+    @Override
+    public Pokemon update(Long id, Supplier<Pokemon> newDataSupplier) {
         Pokemon persistedPokemon = findById(id);
-        persistedPokemon.setName(newName);
-        persistedPokemon.setPrimaryType(newPrimaryType);
-        persistedPokemon.setSecondaryType(newSecondaryType);
+        Pokemon newData = newDataSupplier.get();
+        persistedPokemon.setName(newData.getName());
+        persistedPokemon.setPrimaryType(newData.getPrimaryType());
+        persistedPokemon.setSecondaryType(newData.getSecondaryType());
+        return findById(id);
     }
 
-    public void remove(long id) {
+    @Override
+    public void remove(Long id) {
         remove(findById(id));
     }
 
+    @Override
     public void remove(Pokemon pokemon) {
         if (pokemon != null) {
-            pokemon = entityManager.merge(pokemon);
-            entityTransaction.begin();
-            entityManager.remove(pokemon);
-            entityTransaction.commit();
+            pokemon = getEntityManager().merge(pokemon);
+            getEntityTransaction().begin();
+            getEntityManager().remove(pokemon);
+            getEntityTransaction().commit();
         }
     }
 }

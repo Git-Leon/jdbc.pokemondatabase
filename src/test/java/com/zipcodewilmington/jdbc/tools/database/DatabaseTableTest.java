@@ -20,7 +20,6 @@ public class DatabaseTableTest {
         this.database = Database.UAT;
         LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(database.getConnection());
         seeder.importFilesFromResourcesDirectory();
-        createPokemonTable(database.name());
         this.table = database.getTable("pokemons");
     }
 
@@ -79,6 +78,5 @@ public class DatabaseTableTest {
         String sql = "CREATE TABLE IF NOT EXISTS %s.pokemons(id int auto_increment primary key,name text not null,primary_type int not null,secondary_type int null);";
         StatementExecutor executor = new StatementExecutor(database.getConnection());
         executor.execute(sql, databaseName);
-
     }
 }
