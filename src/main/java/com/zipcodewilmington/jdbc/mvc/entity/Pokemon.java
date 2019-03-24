@@ -1,10 +1,8 @@
 package com.zipcodewilmington.jdbc.mvc.entity;
 
-import com.zipcodewilmington.jdbc.tools.database.Database;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * A entity is an entity which
@@ -14,12 +12,10 @@ public class Pokemon {
     @Id
     @GeneratedValue
 //    @Column(name = "ID")
-    private long id;
-
-    private Database uat = Database.UAT;
+    private Long id;
     private String name;
-    private int secondaryType;
-    private int primaryType;
+    private Integer secondaryType;
+    private Integer primaryType;
 
     public Pokemon(long id, String name, int secondaryType, int primaryType) {
         this.id = id;

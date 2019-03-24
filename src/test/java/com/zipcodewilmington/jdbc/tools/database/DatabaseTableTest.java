@@ -14,10 +14,15 @@ public class DatabaseTableTest {
     private DatabaseTable table;
     private Database database;
 
+    public DatabaseTableTest() {
+        this.database = Database.UAT;
+        database.drop();
+        database.create();
+        database.use();
+    }
+
     @Before
     public void setup() {
-        SeedRefresher.refresh();
-        this.database = Database.UAT;
         LeonDatabaseSeeder seeder = new LeonDatabaseSeeder(database.getConnection());
         seeder.importFilesFromResourcesDirectory();
         this.table = database.getTable("pokemons");

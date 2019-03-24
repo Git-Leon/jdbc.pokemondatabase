@@ -14,7 +14,6 @@ public class DatabaseTest {
         database.drop();
         database.create();
         database.use();
-        database.disableLogging();
     }
 
     @Before

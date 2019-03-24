@@ -11,15 +11,15 @@ import org.junit.Test;
 
 public class StatementExecutorTest {
     private StatementExecutor executor;
-    private Database testingDatabase;
+    private Database database;
 
     @Before
     public void setup() {
-        this.testingDatabase = Database.UAT;
-        this.executor = testingDatabase.getStatementExecutor();
-        testingDatabase.drop();
-        testingDatabase.create();
-        testingDatabase.use();
+        this.database = Database.UAT;
+        this.database.drop();
+        this.database.create();
+        this.database.use();
+        this.executor = database.getStatementExecutor();
     }
 
     @Test
@@ -34,7 +34,7 @@ public class StatementExecutorTest {
                         "lastName text null)");
 
         // then
-        DatabaseTable personTable = testingDatabase.getTable("person");
+        DatabaseTable personTable = database.getTable("person");
         Assert.assertNotNull(personTable);
     }
 
@@ -49,7 +49,7 @@ public class StatementExecutorTest {
         executor.execute("INSERT INTO uat.person(personID, firstName, lastName) VALUES (0, 'leon', 'hunter');");
 
         // then
-        DatabaseTable personTable = testingDatabase.getTable("person");
+        DatabaseTable personTable = database.getTable("person");
         ResultSetHandler rs = personTable.where("personId = 'leon'");
         String actual = rs.toStack().pop().toString();
 
