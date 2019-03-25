@@ -1,6 +1,5 @@
 package com.zipcodewilmington.jdbc.tools.executor;
 
-import com.zipcodewilmington.jdbc.tools.logging.LoggerHandler;
 import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalBiFunction;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalConsumer;
@@ -43,7 +42,6 @@ public interface StatementExecutorInterface extends Closeable {
         String errorMessage = String.format(error, sqlStatement);
         ExceptionalFunction<String, ResultSet> method = getScrollableStatement()::executeQuery;
         ResultSet rs = ExceptionalFunction.tryInvoke(method, sqlStatement, errorMessage);
-        getLogger().info("Executed query `%s`", sqlStatement);
         ResultSetHandler rsh = new ResultSetHandler(rs);
         getResultSetHandlers().add(rsh);
         return rsh;
@@ -69,7 +67,6 @@ public interface StatementExecutorInterface extends Closeable {
         String errorMessage = String.format(error, sql);
         ExceptionalConsumer<String> method = getScrollableStatement()::execute;
         ExceptionalConsumer.tryInvoke(method, sqlStatement, errorMessage);
-        getLogger().info("Executed statement `%s`", sqlStatement);
     }
 
     
@@ -100,6 +97,4 @@ public interface StatementExecutorInterface extends Closeable {
     Connection getConnection();
 
     List<ResultSetHandler> getResultSetHandlers();
-
-    LoggerHandler getLogger();
 }

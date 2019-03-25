@@ -1,6 +1,7 @@
 package com.zipcodewilmington.jdbc.tools.connection;
 
 import com.zipcodewilmington.jdbc.tools.resultset.ResultSetHandler;
+import gitleon.utils.exceptionalfunctionalinterface.ExceptionalConsumer;
 import gitleon.utils.exceptionalfunctionalinterface.ExceptionalSupplier;
 
 import java.sql.Connection;
@@ -18,7 +19,7 @@ public class ConnectionWrapper {
         IS_CLOSED,
         METADATA,
         CATALOG,
-        CATALOGS
+        CATALOGS, AUTOCOMMIT;
     }
 
     private final Connection connection;
@@ -51,10 +52,8 @@ public class ConnectionWrapper {
         }, ConnectionProperty.CATALOGS);
     }
 
-    private <E> E getProperty(ExceptionalSupplier<E> getMethod, ConnectionProperty property) {
-        String error = "Failed to get property `%s`";
-        String errorMessage = String.format(error, property.name());
-        return ExceptionalSupplier.tryInvoke(getMethod::get, errorMessage);
+    public void setAutoCommit(Boolean flag) {
+        setProperty(connection::setAutoCommit, flag, ConnectionProperty.AUTOCOMMIT);
     }
 
     public String[] getSchemaNames() {
@@ -65,7 +64,19 @@ public class ConnectionWrapper {
     }
 
     public Boolean hasDatabase(String name) {
-        List<String> schemaNames = Arrays.asList(getSchemaNames());
-        return schemaNames.contains(name);
+        return Arrays.asList(getSchemaNames()).contains(name);
+    }
+
+
+    private <E> void setProperty(ExceptionalConsumer<E> setMethod, E argument, ConnectionProperty property) {
+        String error = "Failed to set property `%s`";
+        String errorMessage = String.format(error, property.name());
+        ExceptionalConsumer.tryInvoke(setMethod::accept, argument, errorMessage);
+    }
+
+    private <E> E getProperty(ExceptionalSupplier<E> getMethod, ConnectionProperty property) {
+        String error = "Failed to get property `%s`";
+        String errorMessage = String.format(error, property.name());
+        return ExceptionalSupplier.tryInvoke(getMethod::get, errorMessage);
     }
 }
