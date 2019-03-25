@@ -78,10 +78,4 @@ public class DatabaseTableTest {
     public void toStringTest() {
         System.out.println(table);
     }
-
-    private void createPokemonTable(String databaseName) {
-        String sql = "CREATE TABLE IF NOT EXISTS %s.pokemons(id int auto_increment primary key,name text not null,primary_type int not null,secondary_type int null);";
-        StatementExecutor executor = new StatementExecutor(database.getConnection());
-        executor.execute(sql, databaseName);
-    }
 }

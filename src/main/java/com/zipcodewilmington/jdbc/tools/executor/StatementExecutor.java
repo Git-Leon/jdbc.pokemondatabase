@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by leon on 3/13/18.
  */
-public class StatementExecutor implements Closeable {
+public class StatementExecutor implements StatementExecutorInterface {
     private final LoggerHandler logger;
     private final Connection connection;
     private final List<ResultSetHandler> resultSetHandlers = new ArrayList<>();
@@ -35,108 +35,22 @@ public class StatementExecutor implements Closeable {
         }
     }
 
-    /**
-     * executes update statement on the respective connection object
-     *
-     * @param sql  string representative of a SQL update statement
-     * @param args optional string formatting arguments
-     */
-    public void executeUpdate(String sql, Object... args) {
-        String sqlStatement = String.format(sql, args);
-        String error = "Failed to execute update `%s`.";
-        String errorMessage = String.format(error, sqlStatement);
-        ExceptionalConsumer<String> method = getScrollableStatement()::executeUpdate;
-        ExceptionalConsumer.tryInvoke(method, sqlStatement, errorMessage);
+    @Override// Invoked upon garbage collection
+    public void finalize() {
+        close();
     }
-
-    /**
-     * executes query statement on the respective connection object
-     *
-     * @param sql  string representative of a SQL query statement
-     * @param args optional string formatting arguments
-     */
-    public ResultSetHandler executeQuery(String sql, Object... args) {
-        ResultSetHandler resultSetHandler = this.query(sql, args);
-        resultSetHandlers.add(resultSetHandler);
-        return resultSetHandler;
-    }
-
-    /**
-     * executes query statement on the respective connection object
-     *
-     * @param sql  string representative of a SQL query statement
-     * @param args optional string formatting arguments
-     * @return wrapper of ResultSet
-     */
-    private ResultSetHandler query(String sql, Object... args) {
-        String error = "Failed to execute query `%s`.";
-        String sqlStatement = String.format(sql, args);
-        String errorMessage = String.format(error, sqlStatement);
-        ExceptionalFunction<String, ResultSet> method = getScrollableStatement()::executeQuery;
-        ResultSet rs = ExceptionalFunction.tryInvoke(method, sqlStatement, errorMessage);
-        logger.info("Executed query `%s`", sqlStatement);
-        return new ResultSetHandler(rs);
-    }
-
-
+    @Override
     public Connection getConnection() {
         return connection;
     }
 
-
-    public void executeAndCommit(String s) {
-        execute(s);
-        commit();
+    @Override
+    public List<ResultSetHandler> getResultSetHandlers() {
+        return resultSetHandlers;
     }
 
-    /**
-     * executes a statement on the respective connection object
-     *
-     * @param sql  string representative of a SQL update statement
-     * @param args optional string formatting arguments
-     */
-    public void execute(String sql, Object... args) {
-        String error = "Failed to execute statement `%s`";
-        String sqlStatement = String.format(sql, args);
-        String errorMessage = String.format(error, sql);
-        ExceptionalConsumer<String> method = getScrollableStatement()::execute;
-        ExceptionalConsumer.tryInvoke(method, sqlStatement, errorMessage);
-        logger.info("Executed statement `%s`", sqlStatement);
-    }
-
-    /**
-     * @return scroll-insensitive statement
-     */
-    public Statement getScrollableStatement() {
-        String errorMessage = "Failed to create a Statement.";
-        return ExceptionalBiFunction.tryInvoke(
-                connection::createStatement,
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY,
-                errorMessage);
-    }
-
-    public void commit() {
-        String errorMessage = "Failed to execute commit.";
-        ExceptionalRunnable.tryInvoke(connection::commit, errorMessage);
-    }
-
+    @Override
     public LoggerHandler getLogger() {
         return logger;
-    }
-
-    /**
-     * closes connection object and all resultSetHandlers
-     */
-    @Override
-    public void close() {
-        String errorMessage = "Failed to close connection.";
-        ExceptionalRunnable.tryInvoke(connection::close, errorMessage);
-        resultSetHandlers.parallelStream().forEach(resultSetHandler -> resultSetHandler.close());
-    }
-
-    @Override // Invoked upon garbage collection
-    public void finalize() {
-        close();
     }
 }
