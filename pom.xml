@@ -30,14 +30,15 @@
         <dependency>
             <groupId>com.github.git-leon</groupId>
             <artifactId>collectionutils</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.3</version>
         </dependency>
 
         <dependency>
-            <groupId>"git-leon"</groupId>
-            <artifactId>"exceptional-functional-interfaces"</artifactId>
-            <version>"1.1"</version>
+            <groupId>com.github.git-leon</groupId>
+            <artifactId>exceptional-functional-interfaces</artifactId>
+            <version>1.2</version>
         </dependency>
+
 
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
