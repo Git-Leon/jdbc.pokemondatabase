@@ -7,7 +7,6 @@ import com.zipcodewilmington.jdbc.tools.database.Database;
 import com.zipcodewilmington.jdbc.tools.database.DatabaseTable;
 import com.zipcodewilmington.jdbc.tools.database.connection.ResultSetHandler;
 
-import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

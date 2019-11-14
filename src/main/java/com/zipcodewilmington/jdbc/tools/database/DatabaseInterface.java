@@ -16,7 +16,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public interface DatabaseInterface {
-    public static void registerJDBCDriver() {
+    static void registerJDBCDriver() {
         // Attempt to register JDBC Driver
         Driver driver = null;
         try {
